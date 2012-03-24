@@ -1,0 +1,34 @@
+<p>Список отчётов</p>
+<p>
+    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>">Добавить новый отчёт</a>
+</p>
+<table>
+     <tr>
+         <th>Название</th>
+         <th>Операции</th>
+     </tr>
+     <?php foreach($this->reports as $report) { ?>
+         <tr>
+             <td>
+                 <?php echo $this->escape($report->name) ?><br>
+                 <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'index','reportid'=>$report->id)) ?>">
+                     Уровни
+                 </a> 
+                 <a href="<?php echo $this->url(array('controller'=>'report-items','action'=>'index','reportid'=>$report->id)) ?>">
+                     Показатели
+                 </a>
+                 <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$report->id)) ?>">
+                     Значения показателей
+                 </a>
+             </td>
+             <td>
+                 <a href="<?php echo $this->url(array('controller'=>'report','action'=>'update','id'=>$report->id)) ?>">
+                     Изменить
+                 </a> 
+                 <a href="<?php echo $this->url(array('controller'=>'report','action'=>'delete','id'=>$report->id)) ?>">
+                     Удалить
+                 </a> 
+             </td>
+         </tr>
+     <?php } ?>
+ </table>
