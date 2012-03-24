@@ -24,10 +24,16 @@
           <actionMethod actionName="update"/>
           <actionMethod actionName="delete"/>
         </controllerFile>
+        <controllerFile controllerName="ReportItems">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="insert"/>
+          <actionMethod actionName="delete"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Report"/>
         <formFile formName="ReportLevels"/>
+        <formFile formName="ReportItems"/>
       </formsDirectory>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -38,6 +44,7 @@
         <dbTableDirectory>
           <dbTableFile dbTableName="Report"/>
           <dbTableFile dbTableName="ReportLevels"/>
+          <dbTableFile dbTableName="ReportItems"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -71,6 +78,15 @@
             <viewScriptFile forActionName="update"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ReportLevels">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportItems">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportItems">
+            <viewScriptFile forActionName="insert"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportItems">
             <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
