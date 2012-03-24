@@ -1,0 +1,18 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Reporter</title>
+  <script>
+    dojoConfig={async: true};
+</script>
+  <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js">
+  </script>
+</head>
+<body>
+    <h1>Добро пожаловать!</h1><br>
+    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'index')) ?>">Отчёты</a>
+    <a href="<?php echo $this->url(array('controller'=>'user','action'=>'index')) ?>">Пользователи</a>
+    <?php echo $this->layout()->content ?>
+</body>
+</html>
