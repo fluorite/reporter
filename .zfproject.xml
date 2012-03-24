@@ -29,11 +29,19 @@
           <actionMethod actionName="insert"/>
           <actionMethod actionName="delete"/>
         </controllerFile>
+        <controllerFile controllerName="ReportValues">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="insert"/>
+          <actionMethod actionName="update"/>
+          <actionMethod actionName="delete"/>
+          <actionMethod actionName="confirm"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Report"/>
         <formFile formName="ReportLevels"/>
         <formFile formName="ReportItems"/>
+        <formFile formName="ReportValues"/>
       </formsDirectory>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -45,6 +53,7 @@
           <dbTableFile dbTableName="Report"/>
           <dbTableFile dbTableName="ReportLevels"/>
           <dbTableFile dbTableName="ReportItems"/>
+          <dbTableFile dbTableName="ReportValues"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -88,6 +97,21 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ReportItems">
             <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="insert"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="update"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="confirm"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

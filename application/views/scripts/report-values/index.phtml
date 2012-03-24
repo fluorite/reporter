@@ -1,0 +1,76 @@
+<table>
+    <tr>
+        <td valign="top">
+            <p>Список пользователей</p>
+            <table>
+                <tr>
+                    <th>ФИО</th>
+                </tr>
+                <?php foreach($this->users as $user) { ?>
+                <tr>
+                    <td>
+                        <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$this->reportid,'userid'=>$user->id)) ?>">
+                            <?php echo $this->escape($user->lastname).' '.$this->escape($user->firstname); ?>
+                        </a>
+                    </td>
+                </tr>
+                <?php } ?>
+            </table>
+        </td>
+        <td>
+<p>Список значений показателей отчета</p>
+<table>
+     <tr>
+         <th>Номер</th>  
+         <th>Название</th>    
+         <th>Значение</th>
+         <th>Операции</th>
+     </tr>
+     <?php foreach($this->items as $item) { ?>
+         <tr>
+             <td><?php echo $this->escape($item->number) ?></td>
+             <td><?php echo $this->escape($item->name) ?></td>      
+             <td>
+                 <?php if($this->values[$item->id])
+                           echo $this->escape($this->values[$item->id]); ?> 
+             </td>
+             <td>
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0)){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Добавить</a>
+                 <?php } ?> 
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Удалить</a>
+                 <?php } ?> 
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Изменить</a>
+                 <?php } ?> 
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid != 0)){ ?>
+                     <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(this)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
+                 <?php } ?> 
+             </td>
+         </tr>
+     <?php } ?>
+ </table>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    function confirmed(obj){
+        require(["dojo/_base/xhr","dojo/dom"],function(xhr,dom) {
+            // Выполнение ajax-запроса.
+            xhr.get({
+                // Серверная страница обработки ajax-запроса.
+                url: "<?php echo $this->url(array('controller'=>'report-values','action'=>'confirm')) ?>/itemid/"+obj.id,
+                // Формат получаемых данных.
+                handleAs:"json",
+                // Обработка успешного выполнения ajax-запроса.
+                load: function(result) {
+                    dom.byId(result.data).parentNode.parentNode.style.backgroundColor="red";
+                },
+                error: function() {
+                    alert("error!");
+		}
+            });     
+        });
+    }
+</script>
