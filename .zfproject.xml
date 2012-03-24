@@ -36,12 +36,18 @@
           <actionMethod actionName="delete"/>
           <actionMethod actionName="confirm"/>
         </controllerFile>
+        <controllerFile controllerName="User">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="insert"/>
+          <actionMethod actionName="delete"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Report"/>
         <formFile formName="ReportLevels"/>
         <formFile formName="ReportItems"/>
         <formFile formName="ReportValues"/>
+        <formFile formName="User"/>
       </formsDirectory>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -54,6 +60,7 @@
           <dbTableFile dbTableName="ReportLevels"/>
           <dbTableFile dbTableName="ReportItems"/>
           <dbTableFile dbTableName="ReportValues"/>
+          <dbTableFile dbTableName="User"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -112,6 +119,15 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ReportValues">
             <viewScriptFile forActionName="confirm"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="insert"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

@@ -1,0 +1,26 @@
+<?php
+$this->title = "Список пользователей";
+$this->headTitle($this->title);
+?>
+<p><a href="<?php echo $this->url(array('controller'=>'user','action'=>'insert'));?>">Добавить нового пользователя</a></p>
+<table>
+    <tr>
+        <th>Логин</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+        <th>Фамилия</th>
+        <th>Функции</th>
+    </tr>
+    <?php foreach($this->users as $user) { ?>
+    <tr>
+    <td><?php echo $this->escape($user->login);?></td>
+    <td><?php echo $this->escape($user->firstname);?></td>
+    <td><?php echo $this->escape($user->middlename);?></td>
+    <td><?php echo $this->escape($user->lastname);?></td>
+    <td>
+        <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'edit', 'id'=>$user->id));?>">Редактировать</a>
+        <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'delete', 'id'=>$user->id));?>">Удалить</a>
+    </td>
+</tr>
+<?php } ?>
+</table>
