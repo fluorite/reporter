@@ -137,7 +137,19 @@ class ReportValuesController extends Zend_Controller_Action
 
     public function confirmAction()
     {
-        $this->view->data=$this->_getParam('itemid',0);
+        // Получение идентификатора показателя отчета из запроса.
+        $itemid=$this->_getParam('itemid',0);
+        // Получение идентификатора пользователя из запроса.
+        $userid=$this->_getParam('userid',0);
+        if (($itemid != 0) && ($userid != 0)){
+            // Получение состояния подтверждения значения показателя из запроса.
+            $isconfirmed=$this->_getParam('isconfirmed',-1);   
+            if (($isconfirmed == 0) || ($isconfirmed == 1)){
+                // Изменение подтверждение значения показателя в базе данных.
+                $values=new Application_Model_DbTable_ReportValues();
+                $values->confirmValue($itemid, $userid, $isconfirmed);
+            }
+        }
     }
 
 

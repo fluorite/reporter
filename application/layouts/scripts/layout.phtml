@@ -11,8 +11,8 @@
 </head>
 <body>
     <h1>Добро пожаловать!</h1><br>
-    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'index')) ?>">Отчёты</a>
-    <a href="<?php echo $this->url(array('controller'=>'user','action'=>'index')) ?>">Пользователи</a>
+    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'index'),null,true) ?>">Отчёты</a>
+    <a href="<?php echo $this->url(array('controller'=>'user','action'=>'index'),null,true) ?>">Пользователи</a>
     <?php echo $this->layout()->content ?>
 </body>
 </html>

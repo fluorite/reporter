@@ -45,7 +45,7 @@
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Изменить</a>
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid != 0)){ ?>
-                     <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(this)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
+                     <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(<?php echo $item->id; ?>,(this.checked)?1:0)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
                  <?php } ?> 
              </td>
          </tr>
@@ -55,20 +55,20 @@
     </tr>
 </table>
 <script type="text/javascript">
-    function confirmed(obj){
-        require(["dojo/_base/xhr","dojo/dom"],function(xhr,dom) {
+    function confirmed(itemid,isconfirmed){
+        require(["dojo/_base/xhr"],function(xhr) {         
             // Выполнение ajax-запроса.
             xhr.get({
                 // Серверная страница обработки ajax-запроса.
-                url: "<?php echo $this->url(array('controller'=>'report-values','action'=>'confirm')) ?>/itemid/"+obj.id,
+                url: "<?php echo $this->url(array('controller'=>'report-values','action'=>'confirm')) ?>/itemid/"+itemid+"/isconfirmed/"+isconfirmed,
                 // Формат получаемых данных.
                 handleAs:"json",
                 // Обработка успешного выполнения ajax-запроса.
-                load: function(result) {
-                    dom.byId(result.data).parentNode.parentNode.style.backgroundColor="red";
+                load: function() {
+                    
                 },
                 error: function() {
-                    alert("error!");
+                    
 		}
             });     
         });

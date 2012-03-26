@@ -13,6 +13,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
      * Выборка значения требуемого показателя.
      * @param int $itemid идентификатор показателя.
      * @param string $field имя поля показателя.
+     * @param int $userid идентификатор пользователя.
      * @return mixed значения полей (или указанного поля) значения показателя. 
     */
     public function getValue($itemid,$field='',$userid=0){
@@ -35,6 +36,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
     /**
      * Суммирование значений подчиненных показателей.
      * @param int $itemid идентификатор показателя.
+     * @param int $userid идентификатор пользователя.
      * @return int сумма значения подчиненных показателей. 
     */
     public function sumChildValues($itemid,$userid=0){
@@ -94,6 +96,20 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
         $userid=2;
         $data=array(
             'value'=>$value
+        );
+        $this->update($data,array('itemid ='.$itemid,'userid ='.$userid));
+    }
+    /**
+     * Изменение подтверждения значения требуемого показателя.
+     * @param int $itemid идентификатор показателя. 
+     * @param int $userid идентификатор пользователя. 
+     * @param int $isconfirmed подтверждение значения показателя (1, если значение подтверждено, и 0 в противном случае).   
+    */
+    public function confirmValue($itemid,$userid,$isconfirmed){
+        $itemid=(int)$itemid;
+        $userid=(int)$userid;
+        $data=array(
+            'isconfirmed'=>$isconfirmed
         );
         $this->update($data,array('itemid ='.$itemid,'userid ='.$userid));
     }
