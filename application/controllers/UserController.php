@@ -89,14 +89,22 @@ class UserController extends Zend_Controller_Action
         }
     }
 
-    public function logoutAction(){
+    public function logoutAction()
+    {
         // Удаление информации о текущем пользователе.
         Zend_Auth::getInstance()->clearIdentity();  
         $this->_helper->redirector('index','index');
     }
 
+    public function updateAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 
 
 
