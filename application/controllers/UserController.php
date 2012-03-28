@@ -51,15 +51,56 @@ class UserController extends Zend_Controller_Action
                 $users->deleteUser($id);
             }
             $this->_helper->redirector('index');
-        } else {
+        } 
+        else {
             $id=$this->_getParam('id');
             $users=new Application_Model_DbTable_User();
             $this->view->user = $users->getUser($id);
         }
     }
 
+    public function loginAction()
+    {
+        // Проверка аутентификации пользователя. 
+        if (Zend_Auth::getInstance()->hasIdentity())        
+            $this->_helper->redirector('index','index');
+        $form=new Application_Form_Login();
+        $this->view->form=$form;
+        if ($this->getRequest()->isPost()){
+            $formData=$this->getRequest()->getPost();
+            if ($form->isValid($formData)){
+                // Создание адаптера для аутентификации пользователя.
+                $adapter=new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
+                $adapter->setTableName('user')->setIdentityColumn('login')->setCredentialColumn('password');
+                // Получение логина и пароля пользователя из формы.
+                $login=$form->getValue('login');
+                $password=md5($form->getValue('password'));
+                $adapter->setIdentity($login)->setCredential($password);
+                // Проверка логина и пароля пользователя.
+                $result = Zend_Auth::getInstance()->authenticate($adapter);
+                if ($result->isValid()) {
+                    // Получение полной информации о пользователе.
+                    $user=$adapter->getResultRowObject();
+                    // Сохранение полной информации о пользователе.
+                    Zend_Auth::getInstance()->getStorage()->write($user);
+                    $this->_helper->redirector('index','index');
+                } 
+            }
+        }
+    }
+
+    public function logoutAction(){
+        // Удаление информации о текущем пользователе.
+        Zend_Auth::getInstance()->clearIdentity();  
+        $this->_helper->redirector('index','index');
+    }
+
 
 }
+
+
+
+
 
 
 

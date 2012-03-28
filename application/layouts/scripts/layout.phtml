@@ -10,7 +10,13 @@
   </script>
 </head>
 <body>
-    <h1>Добро пожаловать!</h1><br>
+    <h1>Добро пожаловать!</h1>
+        <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
+        <div>
+            Здравствуйте, <?php echo $this->user->lastname." ".$this->user->firstname;?>
+            <a href="<?php echo $this->url(array('controller'=>'user','action'=>'logout'),null,true) ?>">Выход</a>
+        </div>
+        <?php } ?>  
     <a href="<?php echo $this->url(array('controller'=>'report','action'=>'index'),null,true) ?>">Отчёты</a>
     <a href="<?php echo $this->url(array('controller'=>'user','action'=>'index'),null,true) ?>">Пользователи</a>
     <?php echo $this->layout()->content ?>
