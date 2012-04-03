@@ -25,7 +25,7 @@ class Application_Model_DbTable_User extends Zend_Db_Table_Abstract
     public function insertUser($login,$password,$firstname,$middlename,$lastname){
         $data=array(
             'login'=>$login,
-            'password'=>md5($password),
+            'password'=>$password,
             'firstname'=>$firstname,
             'middlename'=>$middlename,
             'lastname'=>$lastname,
@@ -35,7 +35,7 @@ class Application_Model_DbTable_User extends Zend_Db_Table_Abstract
     public function updateUser($id,$login,$password,$firstname,$middlename,$lastname){
         $data=array(
             'login'=>$login,
-            'password'=>md5($password),
+            'password'=>$password,
             'firstname'=>$firstname,
             'middlename'=>$middlename,
             'lastname'=>$lastname,

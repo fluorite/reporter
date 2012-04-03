@@ -24,18 +24,16 @@ class UserController extends Zend_Controller_Action
             $formData = $this->getRequest()->getPost();
 
             if ($form->isValid($formData)) {
-
                 $login = $form->getValue('login');
-                $password = $form->getValue('password');
+                $password = md5($form->getValue('password'));
                 $firstname = $form->getValue('firstname');
                 $middlename = $form->getValue('middlename');
                 $lastname = $form->getValue('lastname');
                 $users = new Application_Model_DbTable_User();
                 $users->insertUser($login, $password, $firstname, $middlename, $lastname);
-
-
                 $this->_helper->redirector('index');
-            }else{
+            }
+            else{
                 $form->populate($formData);
             }
         }
@@ -83,7 +81,18 @@ class UserController extends Zend_Controller_Action
                     $user=$adapter->getResultRowObject();
                     // Сохранение полной информации о пользователе.
                     Zend_Auth::getInstance()->getStorage()->write($user);
-                    $this->_helper->redirector('index','index');
+                    // Получение ресурсов пользователя.
+                    $resources=new Application_Model_DbTable_Resource();
+                    foreach($resources->getUserResources($user->id) as $resource){
+                        echo $resource->name."<br>";
+                        // Получение привилегий пользователя.
+                        $privileges=new Application_Model_DbTable_RolePrivileges();
+                        foreach($privileges->getUserPrivileges($resource->id,$user->id) as $privilage){
+                            echo $privilage->name." ";    
+                        }
+                        echo "<br>";
+                    }
+                    //$this->_helper->redirector('index','index');
                 } 
             }
         }

@@ -12,6 +12,14 @@ CREATE TABLE `report_levels` (
   CONSTRAINT `FK_report_report_levels` FOREIGN KEY (`reportid`) REFERENCES `report` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Уровни отчёта.';
 
+DROP TABLE IF EXISTS `resource`;
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор ресурса.',
+  `name` varchar(32) NOT NULL COMMENT 'Название ресурса',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQ_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Ресурсы.';
+
 DROP TABLE IF EXISTS `report_items`;
 CREATE TABLE `report_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор показателя.',
@@ -41,6 +49,13 @@ CREATE TABLE `department_users` (
   CONSTRAINT `FK_department_users_post` FOREIGN KEY (`postid`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_department_users_user` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Сотрудники подразделения.';
+
+DROP TABLE IF EXISTS `report`;
+CREATE TABLE `report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор отчета.',
+  `name` varchar(256) NOT NULL COMMENT 'Название отчета.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Отчеты.';
 
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
@@ -75,12 +90,19 @@ CREATE TABLE `user` (
   UNIQUE KEY `UQ_login` (`login`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Пользователи.';
 
-DROP TABLE IF EXISTS `report`;
-CREATE TABLE `report` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор отчета.',
-  `name` varchar(256) NOT NULL COMMENT 'Название отчета.',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Отчеты.';
+DROP TABLE IF EXISTS `role_privileges`;
+CREATE TABLE `role_privileges` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleid` int(11) NOT NULL COMMENT 'Идентификатор роли.',
+  `resourceid` int(11) NOT NULL COMMENT 'Идентификатор ресурса.',
+  `name` varchar(32) NOT NULL COMMENT 'Название привилегии.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQ_privileges` (`roleid`,`resourceid`,`name`),
+  KEY `FK_role_privileges_role` (`roleid`),
+  KEY `FK_role_privileges_resource` (`resourceid`),
+  CONSTRAINT `FK_role_privileges_resource` FOREIGN KEY (`resourceid`) REFERENCES `resource` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_role_privileges_role` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Привилегии роли.';
 
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
@@ -111,8 +133,9 @@ CREATE TABLE `user_roles` (
   `userid` int(11) NOT NULL COMMENT 'Идентификатор пользователя.',
   `roleid` int(11) NOT NULL COMMENT 'Идентификатор роли.',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UQ_roles` (`userid`,`roleid`),
   KEY `FK_user_roles_user` (`userid`),
   KEY `FK_user_roles_role` (`roleid`),
   CONSTRAINT `FK_user_roles_role` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_user_roles_user` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Роли пользователя.';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Роли пользователя.';

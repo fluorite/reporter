@@ -65,6 +65,8 @@
           <dbTableFile dbTableName="ReportItems"/>
           <dbTableFile dbTableName="ReportValues"/>
           <dbTableFile dbTableName="User"/>
+          <dbTableFile dbTableName="Resource"/>
+          <dbTableFile dbTableName="RolePrivileges"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
