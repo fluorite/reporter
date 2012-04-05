@@ -6,7 +6,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $front=Zend_Controller_Front::getInstance();
         // Регистрация плагина контроля доступа пользователей.
-        $front->registerPlugin(new Application_Plugin_AccessHandler());        
+        $front->registerPlugin(new Application_Plugin_AccessHandler()); 
     }
 }
 

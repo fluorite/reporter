@@ -81,18 +81,21 @@ class UserController extends Zend_Controller_Action
                     $user=$adapter->getResultRowObject();
                     // Сохранение полной информации о пользователе.
                     Zend_Auth::getInstance()->getStorage()->write($user);
+                    // Добавление роли пользователя.
+                    Zend_Acl_Factory::getInstance("1")->addRole(new Zend_Acl_Role($user->login));
                     // Получение ресурсов пользователя.
                     $resources=new Application_Model_DbTable_Resource();
                     foreach($resources->getUserResources($user->id) as $resource){
-                        echo $resource->name."<br>";
+                        // Добавление ресурсов пользователя.
+                        Zend_Acl_Factory::getInstance()->addResource(new Zend_Acl_Resource($resource->name));
                         // Получение привилегий пользователя.
                         $privileges=new Application_Model_DbTable_RolePrivileges();
-                        foreach($privileges->getUserPrivileges($resource->id,$user->id) as $privilage){
-                            echo $privilage->name." ";    
+                        foreach($privileges->getUserPrivileges($resource->id,$user->id) as $privilege){
+                            // Добавление привилегий пользователя.
+                            Zend_Acl_Factory::getInstance()->allow($user->login,$resource->name,$privilege->name);   
                         }
-                        echo "<br>";
-                    }
-                    //$this->_helper->redirector('index','index');
+                    }                  
+                    $this->_helper->redirector('index','index');
                 } 
             }
         }
