@@ -82,7 +82,7 @@ class UserController extends Zend_Controller_Action
                     // Сохранение полной информации о пользователе.
                     Zend_Auth::getInstance()->getStorage()->write($user);
                     // Добавление роли пользователя.
-                    Zend_Acl_Factory::getInstance("1")->addRole(new Zend_Acl_Role($user->login));
+                    Zend_Acl_Factory::getInstance()->addRole(new Zend_Acl_Role($user->login));
                     // Получение ресурсов пользователя.
                     $resources=new Application_Model_DbTable_Resource();
                     foreach($resources->getUserResources($user->id) as $resource){
