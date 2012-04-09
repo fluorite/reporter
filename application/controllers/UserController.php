@@ -94,7 +94,10 @@ class UserController extends Zend_Controller_Action
                             // Добавление привилегий пользователя.
                             Zend_Acl_Factory::getInstance()->allow($user->login,$resource->name,$privilege->name);   
                         }
-                    }                  
+                    }         
+                    // Сохранение прав пользователя в сессии.
+                    $session=new Zend_Session_Namespace("ugrasu");
+                    $session->acl=Zend_Acl_Factory::getInstance();
                     $this->_helper->redirector('index','index');
                 } 
             }
@@ -105,6 +108,9 @@ class UserController extends Zend_Controller_Action
     {
         // Удаление информации о текущем пользователе.
         Zend_Auth::getInstance()->clearIdentity();  
+        // Удаление прав пользователя из сессии.
+        $session=new Zend_Session_Namespace("ugrasu");
+        unset($session->acl);
         $this->_helper->redirector('index','index');
     }
 
