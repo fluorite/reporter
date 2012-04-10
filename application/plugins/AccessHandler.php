@@ -35,15 +35,23 @@ class Zend_Acl_Factory extends Zend_Acl{
     private function __construct() { 
     } 
     static public function getInstance() {  
-        if (self::$instance == null) { 
+        if (is_null(self::$instance)) { 
             $session=new Zend_Session_Namespace("ugrasu");
-            if (!isset($session->acl))
+            if (!isset($session->acl)){
                 self::$instance=new Zend_Acl();
+                // Сохранение прав пользователя в сессии.
+                $session->acl=self::$instance;
+            }
             else
                 // Чтение прав пользователя из сессии.
                 self::$instance=$session->acl;
         } 
         return self::$instance; 
     }  
+    static public function clearInstance(){
+        // Удаление прав пользователя из сессии.
+        $session=new Zend_Session_Namespace("ugrasu");
+        unset($session->acl);
+    }
 }
 ?>
