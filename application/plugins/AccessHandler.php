@@ -23,10 +23,10 @@ class Application_Plugin_AccessHandler extends Zend_Controller_Plugin_Abstract
             Zend_Layout::getMvcInstance()->getView()->user=$user;
             try{
                 if (!Zend_Acl_Factory::getInstance()->isAllowed($user->login,$controller,$action))                      
-                    $request->setControllerName('index')->setActionName('index');
+                    $request->setControllerName('error')->setActionName('access');
             }
             catch (Exception $e){
-                $request->setControllerName('index')->setActionName('index');    
+                $request->setControllerName('error')->setActionName('access');    
             }
         }
     }
