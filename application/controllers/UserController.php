@@ -12,6 +12,8 @@ class UserController extends Zend_Controller_Action
     {
         $users = new Application_Model_DbTable_User();
         $this->view->users = $users->fetchAll();
+        $acl['User|Insert']=$this->_helper->acl('user','insert');
+        $this->view->acl=$acl;
     }
 
     public function insertAction()

@@ -12,6 +12,10 @@ class ReportController extends Zend_Controller_Action
     {
         $reports=new Application_Model_DbTable_Report();
         $this->view->reports=$reports->fetchAll();
+        $acl['Report|Insert']=$this->_helper->acl('report','insert');
+        $acl['Report|Update']=$this->_helper->acl('report','update');
+        $acl['Report|Delete']=$this->_helper->acl('report','delete');
+        $this->view->acl=$acl;
     }
 
     public function insertAction()

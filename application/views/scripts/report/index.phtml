@@ -1,6 +1,8 @@
 <p>Список отчётов</p>
 <p>
-    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>">Добавить новый отчёт</a>
+    <?php if($this->acl['Report|Insert']){ ?>          
+        <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>">Добавить новый отчёт</a>
+    <?php } ?>        
 </p>
 <table>
      <tr>
@@ -22,12 +24,16 @@
                  </a>
              </td>
              <td>
-                 <a href="<?php echo $this->url(array('controller'=>'report','action'=>'update','id'=>$report->id)) ?>">
-                     Изменить
-                 </a> 
-                 <a href="<?php echo $this->url(array('controller'=>'report','action'=>'delete','id'=>$report->id)) ?>">
-                     Удалить
-                 </a> 
+                 <?php if ($this->acl['Report|Update']){ ?>
+                    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'update','id'=>$report->id)) ?>">
+                        Изменить
+                    </a> 
+                 <?php } ?>        
+                 <?php if ($this->acl['Report|Delete']){ ?>
+                    <a href="<?php echo $this->url(array('controller'=>'report','action'=>'delete','id'=>$report->id)) ?>">
+                        Удалить
+                    </a> 
+                 <?php } ?> 
              </td>
          </tr>
      <?php } ?>
