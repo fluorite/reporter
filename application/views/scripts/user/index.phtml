@@ -2,7 +2,17 @@
 $this->title = "Список пользователей";
 $this->headTitle($this->title);
 ?>
-<p><a href="<?php echo $this->url(array('controller'=>'user','action'=>'insert'));?>">Добавить нового пользователя</a></p>
+<p>
+    <?php 
+    try{ 
+        if (Zend_Acl_Factory::getInstance()->isAllowed(Zend_Auth::getInstance()->getIdentity()->login,"user","insert")){ ?>          
+            <a href="<?php echo $this->url(array('controller'=>'user','action'=>'insert')) ?>">Добавить нового пользователя</a>              
+    <?php }  
+    }
+    catch(Exception $e){
+    }
+    ?> 
+</p>
 <table>
     <tr>
         <th>Логин</th>
