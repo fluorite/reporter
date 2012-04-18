@@ -69,6 +69,7 @@
           <dbTableFile dbTableName="User"/>
           <dbTableFile dbTableName="Resource"/>
           <dbTableFile dbTableName="RolePrivileges"/>
+          <dbTableFile dbTableName="Department"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
