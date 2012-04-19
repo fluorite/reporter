@@ -20,7 +20,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
         $itemid=(int)$itemid;
         if($userid == 0)
             // Идентификатор текущего пользователя.
-            $userid=2;
+            $userid=Zend_Auth::getInstance()->getIdentity()->id;
         // Выборка значения требуемого показателя для текущего пользователя.
         $row=$this->fetchRow($this->select()->where('itemid=?',$itemid)->where('userid=?',$userid));
         if($row)
@@ -66,7 +66,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
     public function insertValue($itemid,$value){
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
-        $userid=2;
+        $userid=Zend_Auth::getInstance()->getIdentity()->id;
         $data=array(
             'itemid'=>$itemid,
             'userid'=>$userid,
@@ -82,7 +82,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
     public function deleteValue($itemid){
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
-        $userid=2;
+        $userid=Zend_Auth::getInstance()->getIdentity()->id;
         $this->delete(array('itemid ='.$itemid,'userid ='.$userid));
     }
     /**
@@ -93,7 +93,7 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
     public function updateValue($itemid,$value){
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
-        $userid=2;
+        $userid=Zend_Auth::getInstance()->getIdentity()->id;
         $data=array(
             'value'=>$value
         );

@@ -1,5 +1,6 @@
 <table>
     <tr>
+        <?php if($this->acl['ReportValues|Confirm']){ ?>                                              
         <td valign="top">
             <p>Список пользователей</p>
             <table>
@@ -17,6 +18,7 @@
                 <?php } ?>
             </table>
         </td>
+        <?php } ?> 
         <td>
 <p>Список значений показателей отчета</p>
 <table>

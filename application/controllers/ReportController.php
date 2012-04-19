@@ -15,6 +15,9 @@ class ReportController extends Zend_Controller_Action
         $acl['Report|Insert']=$this->_helper->acl('report','insert');
         $acl['Report|Update']=$this->_helper->acl('report','update');
         $acl['Report|Delete']=$this->_helper->acl('report','delete');
+        $acl['ReportLevels|Index']=$this->_helper->acl('report-levels','index');
+        $acl['ReportItems|Index']=$this->_helper->acl('report-items','index');
+        $acl['ReportValues|Index']=$this->_helper->acl('report-values','index');
         $this->view->acl=$acl;
     }
 
