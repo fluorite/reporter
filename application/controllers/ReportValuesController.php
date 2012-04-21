@@ -36,11 +36,14 @@ class ReportValuesController extends Zend_Controller_Action
             $this->view->isconfirmed=$isconfirmed;
             // Идентификатор пользователя.
             $this->view->userid=$userid;
-            // Идентификатор текущего пользователя.
-            $userid=Zend_Auth::getInstance()->getIdentity()->id;
-            // Пользователи.
-            $users=new Application_Model_DbTable_User();           
-            $this->view->users=$users->getChildUsers($userid);
+            // Подразделения.
+            $departments=new Application_Model_DbTable_Department();
+            $departmentid=$departments->headOf(Zend_Auth::getInstance()->getIdentity()->id);
+            if ($departmentid != 0){
+                // Пользователи.
+                $users=new Application_Model_DbTable_User();           
+                $this->view->users=$users->getDepartment($departmentid);
+            }
             // Идентификатор отчёта.
             $this->view->reportid=$reportid;
             $acl['ReportValues|Confirm']=$this->_helper->acl('report-values','confirm');

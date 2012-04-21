@@ -7,17 +7,25 @@ class Application_Model_DbTable_Department extends Zend_Db_Table_Abstract
 
     /**
      * Выборка подразделения, возглавляемого пользователем.
-     * @param int $id идентификатор показателя.
-     * @return bool true, если пользователь руководит каким-либо подразделением. 
+     * @param int $userid идентификатор показателя.
+     * @return int идентификатор подразделения, возглавляемого пользователем. 
     */
-    public function isManager($userid){
+    public function headOf($userid){
         $userid = (int)$userid;
-        // Выборка количества подчиненных показателей.
-        $row=$this->fetchRow($this->select()->from(array('report_items'),array('has'=>'count(*)'))->where('parentid=?',$id));
-        if ($row['has'] != 0)
-            return true;
+        // Выборка подразделения, возглавляемого пользователем.
+        $row=$this->fetchRow('headid='.$userid);
+        if (!$row)
+            return 0;
         else
-            return false;
+            return $row->id;
+    }
+    public function getDepartment($id){
+        $id=(int)$id;
+        $row=$this->fetchRow('id='.$id);
+        if (!$row) {
+            throw new Exception("Подразделение [$id] отсутствует");
+        }
+        return $row->toArray();
     }
 }
 

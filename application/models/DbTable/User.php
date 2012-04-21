@@ -13,14 +13,17 @@ class Application_Model_DbTable_User extends Zend_Db_Table_Abstract
         return $row->toArray();
     }
     /**
-     * Выборка подчиненных пользователей.
-     * @param int $id идентификатор пользователя.
-     * @return mixed массив подчиненных пользователей. 
+     * Выборка пользователей подразделения.
+     * @param int $departmentid идентификатор подразделения.
+     * @return mixed массив пользователей подразделения. 
     */
-    public function getChildUsers($id){
-        $id=(int)$id;
-        // Выборка подчиненных пользователей.
-        return $this->fetchAll($this->select()->from(array('user'),array('id','firstname','middlename','lastname')));
+    public function getDepartment($departmentid){
+        $departmentid=(int)$departmentid;
+        // Выборка пользователей подразделения.
+        return $this->fetchAll($this->
+            select()->
+            from(array('user'),array('id','firstname','middlename','lastname'))->
+            where('departmentid=?',$departmentid));
     }	 
     public function insertUser($login,$password,$firstname,$middlename,$lastname){
         $data=array(
