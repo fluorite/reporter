@@ -16,6 +16,8 @@ class ReportValuesController extends Zend_Controller_Action
         // Получение идентификатора пользователя из запроса.
         $userid=$this->_getParam('userid',0);
         if ($reportid != 0){
+            // Полная сумма показателей отчёта.
+            $summary=0;
             // Показатели отчёта.
             $items=new Application_Model_DbTable_ReportItems();
             $this->view->items=$items->getItems($reportid);
@@ -31,9 +33,13 @@ class ReportValuesController extends Zend_Controller_Action
                 }
                 else
                     $data[$item->id]=$values->sumChildValues($item->id,$userid);
+                // Сложение значений показателей верхнего уровня.
+                if ($item->parentid == null)
+                    $summary+=$data[$item->id];
             }
             $this->view->values=$data;
             $this->view->isconfirmed=$isconfirmed;
+            $this->view->summary=$summary;
             // Идентификатор пользователя.
             $this->view->userid=$userid;
             // Подразделения.
