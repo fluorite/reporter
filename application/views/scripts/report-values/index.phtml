@@ -26,7 +26,10 @@
          <th>Номер</th>  
          <th>Название</th>    
          <th>Значение</th>
+         <th>Статус</th>
+         <?php if($this->userid == 0){ ?>
          <th>Операции</th>
+         <?php } ?>
      </tr>
      <?php foreach($this->items as $item) { ?>
          <tr>
@@ -34,7 +37,20 @@
              <td><?php echo $this->escape($item->name) ?></td>      
              <td>
                  <?php if($this->values[$item->id])
-                           echo $this->escape($this->values[$item->id]); ?> 
+                           echo $this->escape($this->values[$item->id]);
+                 ?> 
+             </td>
+             <td>
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){
+                           if ($this->isconfirmed[$item->id] == 1)
+                               echo "+";
+                           else
+                               echo "-";
+                       }
+                 ?>
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid != 0)){ ?>
+                     <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(<?php echo $item->id; ?>,(this.checked)?1:0)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
+                 <?php } ?>
              </td>
              <td>
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0)){ ?>
@@ -45,10 +61,7 @@
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){ ?>
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Изменить</a>
-                 <?php } ?> 
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid != 0)){ ?>
-                     <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(<?php echo $item->id; ?>,(this.checked)?1:0)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
-                 <?php } ?> 
+                 <?php } ?>  
              </td>
          </tr>
      <?php } ?>
