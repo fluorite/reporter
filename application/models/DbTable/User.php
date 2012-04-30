@@ -23,7 +23,8 @@ class Application_Model_DbTable_User extends Zend_Db_Table_Abstract
         return $this->fetchAll($this->
             select()->
             from(array('user'),array('id','firstname','middlename','lastname'))->
-            where('departmentid=?',$departmentid));
+            where('departmentid=?',$departmentid)->
+            order(array('lastname asc','firstname asc','middlename asc')));
     }	 
     public function insertUser($login,$password,$firstname,$middlename,$lastname){
         $data=array(

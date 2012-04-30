@@ -1,0 +1,62 @@
+<div>
+    Рейтинг-лист кафедры
+</div>
+<table>
+     <tr>
+         <th rowspan="2">Номер</th>  
+         <th rowspan="2">ФИО преподавателя</th>
+         <th colspan="<?php echo $this->escape(count($this->parents)); ?>">Баллы по категориям</th>
+         <th rowspan="2">Всего баллов</th>
+     </tr>
+     <tr>
+         <?php foreach($this->parents as $parent) { ?>
+         <td>
+             <?php echo $this->escape($parent->number); ?>
+         </td>
+         <?php } ?>
+     </tr>
+     <?php foreach($this->users as $user) { ?>
+     <tr>
+         <td>
+             <?php echo ++$i; ?>
+         </td>
+         <td>
+             <?php echo $this->escape($user->lastname).' '.$this->escape($user->firstname); ?>
+         </td>
+         <?php foreach($this->parents as $parent) { ?>
+         <td>
+             <?php echo $this->escape($this->values[$parent->id][$user->id]); ?>
+         </td>
+         <?php } ?>
+         <td>
+             <?php echo $this->escape($this->values[-1][$user->id]); ?>
+         </td>
+     </tr>
+     <?php } ?>
+     <tr>
+         <td>
+             <?php echo ++$i; ?>
+         </td>
+         <td>
+             Сумма баллов
+         </td>
+         <?php foreach($this->parents as $parent) { ?>
+         <td>
+             <?php echo $this->escape($this->values[$parent->id][-1]); ?>
+         </td>
+         <?php } ?>
+     </tr>
+     <tr>
+         <td>
+             <?php echo ++$i; ?>
+         </td>
+         <td>
+             Средний балл по кафедре
+         </td>
+         <?php foreach($this->parents as $parent) { ?>
+         <td>
+             <?php echo $this->escape(round($this->values[$parent->id][-1]/count($this->users),2)); ?>
+         </td>
+         <?php } ?>
+     </tr>
+</table>

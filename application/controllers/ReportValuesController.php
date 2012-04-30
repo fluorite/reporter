@@ -37,7 +37,7 @@ class ReportValuesController extends Zend_Controller_Action
                 }
                 else
                     $data[$item->id]=$values->sumChildValues($item->id,$userid);
-                // Сложение значений показателей верхнего уровня.
+                // Суммирование значений показателей верхнего уровня.
                 if ($item->parentid == null)
                     $summary+=$data[$item->id];
             }
@@ -168,8 +168,53 @@ class ReportValuesController extends Zend_Controller_Action
         }
     }
 
+    public function combineAction()
+    {
+        // Получение идентификатора отчета из запроса.
+        $reportid=$this->_getParam('reportid',0);
+        if ($reportid != 0){
+            // Подразделения.
+            $departmentsdb=new Application_Model_DbTable_Department();
+            $departmentid=$departmentsdb->headOf(Zend_Auth::getInstance()->getIdentity()->id);
+            if ($departmentid != 0){
+                // Пользователи.
+                $usersdb=new Application_Model_DbTable_User();           
+                $users=$usersdb->getDepartment($departmentid); 
+                // Показатели отчёта.
+                $itemsdb=new Application_Model_DbTable_ReportItems();
+                $items=$itemsdb->getItems($reportid);
+                // Значения показателей отчёта.
+                $valuesdb=new Application_Model_DbTable_ReportValues();
+                foreach($items as $item) {                
+                    if ($item->parentid == null){
+                        // Показатель верхнего уровня.
+                        $parents[]=$item;
+                        //$values[$item->id][-1]=0;
+                        foreach($users as $user){
+                            // Значение показателя верхнего уровня для сотрудника подразделения.
+                            if ($item->isvalue == 1)
+                                $values[$item->id][$user->id]=$valuesdb->getValue($item->id,'value',$user->id);
+                            else
+                                $values[$item->id][$user->id]=$valuesdb->sumChildValues($item->id,$user->id); 
+                            $values[$item->id][-1]+=$values[$item->id][$user->id];
+                            $values[-1][$user->id]+=$values[$item->id][$user->id];
+                        }
+                    }
+                }
+                // Массив сотрудников подразделения.
+                $this->view->users=$users;
+                // Массив показателей верхнего уровня.
+                $this->view->parents=$parents;
+                // Массив значений показателей верхненего уровня для сотрудников подразделения.
+                $this->view->values=$values;
+            }
+        }
+    }
+
 
 }
+
+
 
 
 

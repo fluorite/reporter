@@ -27,7 +27,12 @@
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$report->id)) ?>">
                          Значения показателей
                      </a>
-                 <?php } ?>                
+                 <?php } ?> 
+                 <?php if($this->acl['ReportValues|Combine']){ ?>          
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'combine','reportid'=>$report->id)) ?>">
+                         Рейтинг-лист кафедры
+                     </a>
+                 <?php } ?> 
              </td>
              <td>
                  <?php if ($this->acl['Report|Update']){ ?>
