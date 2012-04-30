@@ -83,7 +83,8 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
         $userid=Zend_Auth::getInstance()->getIdentity()->id;
-        $this->delete(array('itemid ='.$itemid,'userid ='.$userid));
+        // Удаление значения показателя разрешено только для неподтвержденного значения.
+        $this->delete(array('itemid ='.$itemid,'userid ='.$userid,'isconfirmed=0'));
     }
     /**
      * Изменение значения требуемого показателя.
@@ -94,10 +95,11 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
         $userid=Zend_Auth::getInstance()->getIdentity()->id;
+        // Изменение значения показателя разрешено только для неподтвержденного значения.     
         $data=array(
             'value'=>$value
         );
-        $this->update($data,array('itemid ='.$itemid,'userid ='.$userid));
+        $this->update($data,array('itemid='.$itemid,'userid='.$userid,'isconfirmed=0'));
     }
     /**
      * Изменение подтверждения значения требуемого показателя.

@@ -56,10 +56,10 @@
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0)){ ?>
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Добавить</a>
                  <?php } ?> 
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){ ?>
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0)){ ?>
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Удалить</a>
                  <?php } ?> 
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){ ?>
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0)){ ?>
                      <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Изменить</a>
                  <?php } ?>  
              </td>
