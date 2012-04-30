@@ -18,6 +18,8 @@ class ReportValuesController extends Zend_Controller_Action
         if ($reportid != 0){
             // Полная сумма показателей отчёта.
             $summary=0;
+            // Отчет полностью подтвержден.
+            $allconfirmed=true;
             // Показатели отчёта.
             $items=new Application_Model_DbTable_ReportItems();
             $this->view->items=$items->getItems($reportid);
@@ -29,6 +31,8 @@ class ReportValuesController extends Zend_Controller_Action
                     // Подтверждение ненулевого значения показателя.
                     if ($data[$item->id] != 0){
                         $isconfirmed[$item->id]=$values->getValue($item->id,'isconfirmed',$userid);
+                        if ($isconfirmed[$item->id] == 0)
+                            $allconfirmed=false;
                     }
                 }
                 else
@@ -40,6 +44,7 @@ class ReportValuesController extends Zend_Controller_Action
             $this->view->values=$data;
             $this->view->isconfirmed=$isconfirmed;
             $this->view->summary=$summary;
+            $this->view->allconfirmed=$allconfirmed;
             // Идентификатор пользователя.
             $this->view->userid=$userid;
             // Подразделения.

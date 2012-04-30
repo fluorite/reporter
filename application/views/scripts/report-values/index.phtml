@@ -66,7 +66,14 @@
          </tr>
      <?php } ?>
  </table>
-<p>Итого: <?php echo $this->escape($this->summary); ?></p>
+<p>
+    Итого: <?php echo $this->escape($this->summary); ?>, 
+    <?php if($this->allconfirmed)
+              echo "отчет подтвержден.";
+          else
+              echo "отчет не подтвержден.";
+    ?>
+</p>
         </td>
     </tr>
 </table>
