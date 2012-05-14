@@ -189,7 +189,6 @@ class ReportValuesController extends Zend_Controller_Action
                     if ($item->parentid == null){
                         // Показатель верхнего уровня.
                         $parents[]=$item;
-                        //$values[$item->id][-1]=0;
                         foreach($users as $user){
                             // Значение показателя верхнего уровня для сотрудника подразделения.
                             if ($item->isvalue == 1)
