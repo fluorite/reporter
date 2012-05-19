@@ -3,19 +3,36 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Reporter</title>
-  <script>
-    dojoConfig={async: true};
-</script>
-  <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js">
-  </script>
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.css">     
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap-responsive.css">
 </head>
 <body>
-    <h1>Добро пожаловать!</h1>
-        <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
-            <div>
-                Здравствуйте, <?php echo $this->user->lastname." ".$this->user->firstname;?>
-                <a href="<?php echo $this->url(array('controller'=>'user','action'=>'logout'),null,true) ?>">Выход</a>
+    <div class="container">
+        <div class="header">
+        </div>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container" style="width: auto">
+                    <a class="brand" href="/">REPORTER</a>
+                    <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
+                    <div class="btn-group pull-right">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-user"></i><?php echo $this->user->login;?>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><?php echo $this->user->lastname." ".$this->user->firstname;?></a></li>
+                            <li class="divider"></li>
+                            <li><a href="<?php echo $this->url(array('controller'=>'user','action'=>'logout'),null,true) ?>">Выход</a></li>
+                        </ul>
+                    </div>
+                    <?php } ?>
+                </div>
             </div>
+        </div>
+        <div class="content">
+            <h1>Добро пожаловать!</h1>
+        <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
             <?php 
             try{ 
                 if (Zend_Acl_Factory::getInstance()->isAllowed($this->user->login,"report","index")){ ?>
@@ -36,5 +53,28 @@
             ?>        
         <?php } ?>  
     <?php echo $this->layout()->content ?>
+            </div>
+            <hr/>
+            <div class="footer">
+                &copy; Антон Захаров, Андрей Алчин 2011-<?php echo date('Y'); ?>
+                <div class="footer-menu">
+ 
+                </div>
+            </div>
+        </div>
+    
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-button.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap-typeahead.js"></script>
 </body>
 </html>
