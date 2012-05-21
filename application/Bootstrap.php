@@ -12,11 +12,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         Zend_Controller_Action_HelperBroker::addPath(APPLICATION_PATH .'/controllers/helpers','Controller_Action_Helper');
     }
-    protected function _initView()
-    {
-        $view=new Zend_View();
-        //$view->addHelperPath('Zend/Dojo/View/Helper/','Zend_Dojo_View_Helper');
-        return $view;
-    }
 }
 
