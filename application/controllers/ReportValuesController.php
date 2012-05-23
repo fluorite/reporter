@@ -58,6 +58,9 @@ class ReportValuesController extends Zend_Controller_Action
             // Идентификатор отчёта.
             $this->view->reportid=$reportid;
             $acl['ReportValues|Confirm']=$this->_helper->acl('report-values','confirm');
+            $acl['ReportValues|Insert']=$this->_helper->acl('report-values','insert');
+            $acl['ReportValues|Update']=$this->_helper->acl('report-values','update');
+            $acl['ReportValues|Delete']=$this->_helper->acl('report-values','delete');
             $this->view->acl=$acl;
         }
     }

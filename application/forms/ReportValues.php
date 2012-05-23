@@ -17,7 +17,7 @@ class Application_Form_ReportValues extends Zend_Form
              ->addFilter('Int')
              ->addValidator('NotEmpty');
          $submit=new Zend_Form_Element_Submit('submit');
-         $submit->setAttrib('id','submitbutton')->setLabel('Добавить');
+         $submit->setAttrib('id','submitbutton')->setAttrib('class','btn btn-primary')->setLabel('Добавить');
          $this->addElements(array($itemid,$value,$submit));
     }
     public function init()

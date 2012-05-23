@@ -21,20 +21,33 @@
         <?php } ?> 
         <td>
 <p>Список значений показателей отчета</p>
-<table>
-     <tr>
-         <th>Номер</th>  
-         <th>Название</th>    
-         <th>Значение</th>
-         <th>Статус</th>
-         <?php if($this->userid == 0){ ?>
-         <th>Операции</th>
-         <?php } ?>
-     </tr>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Номер</th>  
+        <th>Название</th>    
+        <th>Значение</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
      <?php foreach($this->items as $item) { ?>
          <tr>
-             <td><?php echo $this->escape($item->number) ?></td>
-             <td><?php echo $this->escape($item->name) ?></td>      
+             <td id="<?php echo $this->escape($item->number) ?>"><?php if ($item->parentid == null) { ?>
+                     <i class="icon-folder-open" onclick="collapse(this)"></i>
+                 <?php } ?>
+                 <?php echo $this->escape($item->number) ?>
+             </td>
+             <td><?php echo $this->escape($item->name) ?><br />
+		 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Insert']){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить</a>
+                 <?php } ?> 
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Delete']){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-trash"></i> Удалить</a>
+                 <?php } ?> 
+                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Update']){ ?>
+                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-pencil"></i> Изменить</a>
+                 <?php } ?>
+             </td>      
              <td>
                  <?php if($this->values[$item->id])
                            echo $this->escape($this->values[$item->id]);
@@ -52,17 +65,6 @@
                      <input id="item_<?php echo $item->id; ?>" type="checkbox" onchange="confirmed(<?php echo $item->id; ?>,(this.checked)?1:0)" <?php if ($this->isconfirmed[$item->id] == 1) echo 'checked="checked"'; ?>/>
                  <?php } ?>
              </td>
-             <td>
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0)){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Добавить</a>
-                 <?php } ?> 
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0)){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Удалить</a>
-                 <?php } ?> 
-                 <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0)){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>">Изменить</a>
-                 <?php } ?>  
-             </td>
          </tr>
      <?php } ?>
  </table>
@@ -77,6 +79,25 @@
         </td>
     </tr>
 </table>
+<script type="text/javascript">
+    function collapse(cell){
+	if (cell.className == "icon-folder-close")
+	    cell.className="icon-folder-open";
+        else
+            cell.className="icon-folder-close";
+        var q=cell.parentNode.id+".";
+        q=q.replace(new RegExp("\\.",'g'),"\\.");
+        $(document).ready(function() {
+            var elem = $('td[id^='+q+']');
+	    for(var i=0; i < elem.length; i++){
+		if (cell.className == "icon-folder-open")
+ 		    elem[i].parentNode.style.display="table-row";
+                else
+                    elem[i].parentNode.style.display="none";
+	    }
+        });
+    }
+</script>
 <script type="text/javascript">
     function confirmed(itemid,isconfirmed){
         require(["dojo/_base/xhr"],function(xhr) {         
