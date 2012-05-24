@@ -21,7 +21,7 @@
         <?php } ?> 
         <td>
 <p>Список значений показателей отчета</p>
-<table class="table">
+<table class="table" style="width: 100%">
     <thead>
     <tr>
         <th>Номер</th>  
@@ -31,21 +31,22 @@
     </tr>
     </thead>
      <?php foreach($this->items as $item) { ?>
-         <tr>
-             <td id="<?php echo $this->escape($item->number) ?>"><?php if ($item->parentid == null) { ?>
-                     <i class="icon-folder-open" onclick="collapse(this)"></i>
-                 <?php } ?>
+         <tr id="<?php echo $this->escape($item->number) ?>">
+             <td>
                  <?php echo $this->escape($item->number) ?>
              </td>
              <td><?php echo $this->escape($item->name) ?><br />
+                 <?php if ($item->parentid == null) { ?>
+                 <a><i class="icon-folder-open" onclick="collapse(this)"></i> Скрыть</a>
+                 <?php } ?>
 		 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Insert']){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить</a>
+                     <a title="Добавить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить</a>
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Delete']){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-trash"></i> Удалить</a>
+                     <a title="Удалить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-trash"></i> Удалить</a>
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Update']){ ?>
-                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-pencil"></i> Изменить</a>
+                     <a title="Изменить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-pencil"></i> Изменить</a>
                  <?php } ?>
              </td>      
              <td>
@@ -55,10 +56,12 @@
              </td>
              <td>
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid == 0)){
-                           if ($this->isconfirmed[$item->id] == 1)
-                               echo "+";
-                           else
-                               echo "-";
+                           if ($this->isconfirmed[$item->id] == 1){?>
+                               <i class="icon-ok"></i><?php
+                           }
+                           else {?>
+                               <i class="icon-remove"></i><?php
+                           }
                        }
                  ?>
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->userid != 0)){ ?>
@@ -80,20 +83,24 @@
     </tr>
 </table>
 <script type="text/javascript">
-    function collapse(cell){
-	if (cell.className == "icon-folder-close")
+    function collapse(cell){      
+	if (cell.className == "icon-folder-close"){
 	    cell.className="icon-folder-open";
-        else
+            cell.parentNode.childNodes[1].textContent=" Скрыть";
+        }
+        else{
             cell.className="icon-folder-close";
-        var q=cell.parentNode.id+".";
+            cell.parentNode.childNodes[1].textContent=" Отобразить";
+        }
+        var q=cell.parentNode.parentNode.parentNode.id+".";
         q=q.replace(new RegExp("\\.",'g'),"\\.");
         $(document).ready(function() {
-            var elem = $('td[id^='+q+']');
+            var elem = $('tr[id^='+q+']');
 	    for(var i=0; i < elem.length; i++){
 		if (cell.className == "icon-folder-open")
- 		    elem[i].parentNode.style.display="table-row";
+ 		    elem[i].style.display="table-row";
                 else
-                    elem[i].parentNode.style.display="none";
+                    elem[i].style.display="none";
 	    }
         });
     }
