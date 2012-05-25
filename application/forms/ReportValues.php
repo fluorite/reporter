@@ -5,6 +5,8 @@ class Application_Form_ReportValues extends Zend_Form
     public function __construct($options=null){
          parent::__construct($options);
          $this->setName('reportvalues');
+         // Использование стилевого класса bootstrap.
+         $this->setAttrib('class','well');
          // Идентификатор показателя.
          $itemid=new Zend_Form_Element_Hidden('itemid');
          $itemid->addFilter('Int')

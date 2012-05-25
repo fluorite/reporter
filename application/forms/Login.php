@@ -8,6 +8,7 @@ class Application_Form_Login extends Zend_Form
         //Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
         $this->setName('user');
         $this->setMethod('post');
+        // Использование стилевого класса bootstrap.
         $this->setAttrib('class','well');
         $login=new Zend_Form_Element_Text('login');
         $login->setLabel('Пользователь')
