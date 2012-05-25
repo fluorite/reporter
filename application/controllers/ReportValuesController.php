@@ -55,8 +55,11 @@ class ReportValuesController extends Zend_Controller_Action
                 $users=new Application_Model_DbTable_User();           
                 $this->view->users=$users->getDepartment($departmentid);
             }
+            // Отчёты.
+            $reports=new Application_Model_DbTable_Report();
             // Идентификатор отчёта.
-            $this->view->reportid=$reportid;
+            $this->view->report=$reports->getReport($reportid);
+            // Права доступа пользователя.
             $acl['ReportValues|Confirm']=$this->_helper->acl('report-values','confirm');
             $acl['ReportValues|Insert']=$this->_helper->acl('report-values','insert');
             $acl['ReportValues|Update']=$this->_helper->acl('report-values','update');

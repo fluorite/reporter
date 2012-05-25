@@ -10,7 +10,7 @@
                 <?php foreach($this->users as $user) { ?>
                 <tr>
                     <td>
-                        <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$this->reportid,'userid'=>$user->id)) ?>">
+                        <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$this->report['id'],'userid'=>$user->id)) ?>">
                             <?php echo $this->escape($user->lastname).' '.$this->escape($user->firstname); ?>
                         </a>
                     </td>
@@ -20,7 +20,7 @@
         </td>
         <?php } ?> 
         <td>
-<p>Список значений показателей отчета</p>
+<h3><?php echo $this->escape($this->report['name']) ?></h3>
 <table class="table" style="width: 100%">
     <thead>
     <tr>
@@ -40,13 +40,13 @@
                  <a><i class="icon-folder-open" onclick="collapse(this)"></i> Скрыть</a>
                  <?php } ?>
 		 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Insert']){ ?>
-                     <a title="Добавить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить</a>
+                     <a title="Добавить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->report['id'])) ?>"><i class="icon-share-alt"></i> Добавить</a>
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Delete']){ ?>
-                     <a title="Удалить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-trash"></i> Удалить</a>
+                     <a title="Удалить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'delete','itemid'=>$item->id,'reportid'=>$this->report['id'])) ?>"><i class="icon-trash"></i> Удалить</a>
                  <?php } ?> 
                  <?php if(($item->isvalue == 1) && ($this->values[$item->id] != 0) && ($this->isconfirmed[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Update']){ ?>
-                     <a title="Изменить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->reportid)) ?>"><i class="icon-pencil"></i> Изменить</a>
+                     <a title="Изменить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'update','itemid'=>$item->id,'reportid'=>$this->report['id'])) ?>"><i class="icon-pencil"></i> Изменить</a>
                  <?php } ?>
              </td>      
              <td>
