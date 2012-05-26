@@ -64,6 +64,9 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
      * @param int $value значение показателя. 
     */
     public function insertValue($itemid,$value){
+        if ($value <= 0) {
+            throw new Exception("Ошибочное значение показателя [$value]. Значение показателя [$itemid] должно быть положительным числом.");
+        }
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
         $userid=Zend_Auth::getInstance()->getIdentity()->id;
@@ -92,6 +95,9 @@ class Application_Model_DbTable_ReportValues extends Zend_Db_Table_Abstract
      * @param int $value значение показателя. 
     */
     public function updateValue($itemid,$value){
+        if ($value <= 0) {
+            throw new Exception("Ошибочное значение показателя [$value]. Значение показателя [$itemid] должно быть положительным числом.");
+        }
         $itemid=(int)$itemid;
         // Идентификатор текущего пользователя.
         $userid=Zend_Auth::getInstance()->getIdentity()->id;

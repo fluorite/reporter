@@ -37,7 +37,7 @@
              </td>
              <td><?php echo $this->escape($item->name) ?><br />
                  <?php if ($item->parentid == null) { ?>
-                 <a><i class="icon-folder-open" onclick="collapse(this)"></i> Скрыть</a>
+                 <a><i class="icon-folder-open" onclick="collapse(this)"></i> Свернуть</a>
                  <?php } ?>
 		 <?php if(($item->isvalue == 1) && ($this->values[$item->id] == 0) && ($this->userid == 0) && $this->acl['ReportValues|Insert']){ ?>
                      <a title="Добавить значение показателя отчёта" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'insert','itemid'=>$item->id,'reportid'=>$this->report['id'])) ?>"><i class="icon-share-alt"></i> Добавить</a>
@@ -86,11 +86,17 @@
     function collapse(cell){      
 	if (cell.className == "icon-folder-close"){
 	    cell.className="icon-folder-open";
-            cell.parentNode.childNodes[1].textContent=" Скрыть";
+            if (cell.parentNode.childNodes[1].textContent)
+                cell.parentNode.childNodes[1].textContent=" Свернуть";        
+            else
+                cell.parentNode.childNodes[1].nodeValue=" Свернуть";
         }
         else{
             cell.className="icon-folder-close";
-            cell.parentNode.childNodes[1].textContent=" Отобразить";
+            if (cell.parentNode.childNodes[1].textContent)
+                cell.parentNode.childNodes[1].textContent=" Развернуть";
+            else
+                cell.parentNode.childNodes[1].nodeValue=" Развернуть";
         }
         var q=cell.parentNode.parentNode.parentNode.id+".";
         q=q.replace(new RegExp("\\.",'g'),"\\.");
@@ -98,9 +104,9 @@
             var elem = $('tr[id^='+q+']');
 	    for(var i=0; i < elem.length; i++){
 		if (cell.className == "icon-folder-open")
- 		    elem[i].style.display="table-row";
+ 		    $(elem[i]).show("slow");
                 else
-                    elem[i].style.display="none";
+                    $(elem[i]).hide("slow");
 	    }
         });
     }

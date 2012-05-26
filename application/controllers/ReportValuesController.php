@@ -77,22 +77,32 @@ class ReportValuesController extends Zend_Controller_Action
             $this->view->form=$form;
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
-                if ($form->isValid($formData)){
-                    $itemid=$form->getValue('itemid');
-                    $value=$form->getValue('value');
-                    $values=new Application_Model_DbTable_ReportValues();
-                    $values->insertValue($itemid,$value);
+                if ($formData['submit']){
+                    if ($form->isValid($formData)){
+                        $itemid=$form->getValue('itemid');
+                        $value=$form->getValue('value');
+                        $values=new Application_Model_DbTable_ReportValues();
+                        $values->insertValue($itemid,$value);
+                        // Переход на страницу с перечнем значений показателей требуемого отчета.
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
+                    }
+                    else{
+                        $form->populate($formData);
+                    }
+                }
+                else {
+                    // Переход на страницу с перечнем значений показателей требуемого отчета.
                     $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
-                }
-                else{
-                    $form->populate($formData);
-                }
+                } 
             }
             else{
                 // Получение идентификатора показателя из запроса.
                 $itemid=$this->_getParam('itemid',0);
+                // Показатели отчёта.
+                $items=new Application_Model_DbTable_ReportItems();
+                $item=$items->getItem($itemid);
                 if ($itemid != 0)
-                    $form->populate(array('itemid'=>$itemid));
+                    $form->populate(array('itemid'=>$itemid,'title'=>'<h3>'.$item['name'].'</h3>'));
             }
         }
     }
@@ -107,24 +117,33 @@ class ReportValuesController extends Zend_Controller_Action
             $this->view->form=$form;
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
-                if ($form->isValid($formData)) {
-                    $itemid=(int)$form->getValue('itemid');
-                    $value=$form->getValue('value');
-                    // Обновление значения показателя в базе данных.
-                    $values=new Application_Model_DbTable_ReportValues();
-                    $values->updateValue($itemid,$value);
+                if ($formData['submit']){
+                    if ($form->isValid($formData)) {                  
+                        $itemid=(int)$form->getValue('itemid');
+                        $value=$form->getValue('value');
+                        // Обновление значения показателя в базе данных.
+                        $values=new Application_Model_DbTable_ReportValues();
+                        $values->updateValue($itemid,$value);                   
+                        // Переход на страницу с перечнем значений показателей требуемого отчета.
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
+                    }
+                    else {
+                        $form->populate($formData);
+                    }
+                }
+                else {
                     // Переход на страницу с перечнем значений показателей требуемого отчета.
                     $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
-                } 
-                else {
-                    $form->populate($formData);
-                }
+                }               
             } 
             else {
                 $itemid=$this->_getParam('itemid', 0);
                 if ($itemid != 0) {
+                    // Показатели отчёта.
+                    $items=new Application_Model_DbTable_ReportItems();
+                    $item=$items->getItem($itemid);
                     $values=new Application_Model_DbTable_ReportValues();
-                    $form->populate(array('itemid'=>$itemid,'value'=>$values->getValue($itemid,'value')));
+                    $form->populate(array('itemid'=>$itemid,'title'=>'<h3>'.$item['name'].'</h3>','value'=>$values->getValue($itemid,'value')));
                 }
             }
         }
