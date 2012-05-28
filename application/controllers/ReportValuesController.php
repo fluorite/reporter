@@ -78,6 +78,7 @@ class ReportValuesController extends Zend_Controller_Action
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
                 if ($formData['submit']){
+                    // Обработка нажатия кнопки "Добавить".
                     if ($form->isValid($formData)){
                         $itemid=$form->getValue('itemid');
                         $value=$form->getValue('value');
@@ -87,7 +88,13 @@ class ReportValuesController extends Zend_Controller_Action
                         $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
                     }
                     else{
-                        $form->populate($formData);
+                        // Заполнение формы данными.                       
+                        $items=new Application_Model_DbTable_ReportItems(); 
+                        $item=$items->getItem($formData['itemid']);
+                        $form->populate(array(
+                            'itemid'=>$formData['itemid'],
+                            'title'=>$item['number'].' '.$item['name'],
+                            'value'=>$formData['value']));
                     }
                 }
                 else {
@@ -97,12 +104,15 @@ class ReportValuesController extends Zend_Controller_Action
             }
             else{
                 // Получение идентификатора показателя из запроса.
-                $itemid=$this->_getParam('itemid',0);
-                // Показатели отчёта.
-                $items=new Application_Model_DbTable_ReportItems();
-                $item=$items->getItem($itemid);
-                if ($itemid != 0)
-                    $form->populate(array('itemid'=>$itemid,'title'=>'<h3>'.$item['name'].'</h3>'));
+                $itemid=$this->_getParam('itemid',0);               
+                if ($itemid != 0){
+                    // Показатели отчёта.
+                    $items=new Application_Model_DbTable_ReportItems();
+                    $item=$items->getItem($itemid);
+                    $form->populate(array(
+                        'itemid'=>$itemid,
+                        'title'=>$item['number'].' '.$item['name'],));
+                }
             }
         }
     }
@@ -118,6 +128,7 @@ class ReportValuesController extends Zend_Controller_Action
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
                 if ($formData['submit']){
+                    // Обработка нажатия кнопки "Сохранить".
                     if ($form->isValid($formData)) {                  
                         $itemid=(int)$form->getValue('itemid');
                         $value=$form->getValue('value');
@@ -128,7 +139,13 @@ class ReportValuesController extends Zend_Controller_Action
                         $this->_helper->redirector->gotoRoute(array('controller'=>'report-values','action'=>'index','reportid'=>$reportid));
                     }
                     else {
-                        $form->populate($formData);
+                        // Заполнение формы данными.                       
+                        $items=new Application_Model_DbTable_ReportItems(); 
+                        $item=$items->getItem($formData['itemid']);
+                        $form->populate(array(
+                            'itemid'=>$formData['itemid'],
+                            'title'=>$item['number'].' '.$item['name'],
+                            'value'=>$formData['value']));
                     }
                 }
                 else {
@@ -140,10 +157,13 @@ class ReportValuesController extends Zend_Controller_Action
                 $itemid=$this->_getParam('itemid', 0);
                 if ($itemid != 0) {
                     // Показатели отчёта.
-                    $items=new Application_Model_DbTable_ReportItems();
+                    $items=new Application_Model_DbTable_ReportItems(); 
                     $item=$items->getItem($itemid);
                     $values=new Application_Model_DbTable_ReportValues();
-                    $form->populate(array('itemid'=>$itemid,'title'=>'<h3>'.$item['name'].'</h3>','value'=>$values->getValue($itemid,'value')));
+                    $form->populate(array(
+                        'itemid'=>$itemid,
+                        'title'=>$item['number'].' '.$item['name'],
+                        'value'=>$values->getValue($itemid,'value')));
                 }
             }
         }
@@ -156,7 +176,7 @@ class ReportValuesController extends Zend_Controller_Action
         if ($reportid != 0){
             if ($this->getRequest()->isPost()) {
                 $isConfirmed=$this->getRequest()->getPost('confirm');
-                if ($isConfirmed == 'Да'){
+                if ($isConfirmed == 'Удалить'){
                     $itemid=$this->getRequest()->getPost('itemid');
                     // Удаление значения показателя из базы данных.
                     $values=new Application_Model_DbTable_ReportValues();

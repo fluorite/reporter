@@ -7,9 +7,9 @@ class Application_Form_ReportValues extends Zend_Form
          $this->setName('reportvalues');
          // Использование стилевого класса bootstrap.
          $this->setAttrib('class','well');
-         // Название показателя.
+         // Номер и название показателя.
          $title=new Zend_Form_Element_Text('title');
-         $title->setDecorators(array('ViewHelper'));
+         $title->setLabel('Номер и название показателя:');
          $title->helper='formNote';
          // Идентификатор показателя.
          $itemid=new Zend_Form_Element_Hidden('itemid');
@@ -17,9 +17,12 @@ class Application_Form_ReportValues extends Zend_Form
              ->addValidator('NotEmpty');
          // Значение показателя.
          $value=new Zend_Form_Element_Text('value');
-         $value->setLabel('Значение')
+         $value->setLabel('Значение показателя:')
              ->setRequired(true)
-             ->addValidator('NotEmpty');
+             ->addValidator('NotEmpty',true,
+                array('messages' => array('isEmpty' => 'Значение является обязательным и не может быть пустым')))
+             ->addValidator('GreaterThan',true,
+                array('min'=>'0','messages' => array('notGreaterThan' => 'Значение показателя должно быть положительным числом')));
          $submit=new Zend_Form_Element_Submit('submit');
          $submit->setAttrib('id','submitbutton')
              ->setAttrib('class','btn btn-primary')

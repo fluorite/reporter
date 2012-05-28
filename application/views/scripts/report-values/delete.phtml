@@ -1,11 +1,11 @@
-<p>Вы действительно хотите удалить значение показателя
-    '<?php echo $this->escape($this->item); ?>'?
- </p>
- <form action="<?php echo $this->url(array('action'=>'delete')); ?>" method="post">
+ <form class="well" action="<?php echo $this->url(array('action'=>'delete')); ?>" method="post">
+     <p>Вы действительно хотите удалить значение показателя
+        '<?php echo $this->escape($this->item); ?>'?
+     </p>
      <div>
          <input type="hidden" name="itemid" value="<?php echo $this->itemid; ?>" />
          <input type="hidden" name="reportid" value="<?php echo $this->reportid; ?>" />
-         <input type="submit" name="confirm" value="Да" />
-         <input type="submit" name="confirm" value="Нет" />
+         <input type="submit" name="confirm" value="Удалить" class="btn btn-danger"/>
+         <input type="submit" name="confirm" value="Отменить" class="btn btn-warning"/>
      </div>
  </form>
