@@ -128,21 +128,10 @@
 </script>
 <script type="text/javascript">
     function confirmed(itemid,isconfirmed){
-        require(["dojo/_base/xhr"],function(xhr) {         
-            // Выполнение ajax-запроса.
-            xhr.get({
-                // Серверная страница обработки ajax-запроса.
-                url: "<?php echo $this->url(array('controller'=>'report-values','action'=>'confirm')) ?>/itemid/"+itemid+"/isconfirmed/"+isconfirmed,
-                // Формат получаемых данных.
-                handleAs:"json",
-                // Обработка успешного выполнения ajax-запроса.
-                load: function() {
-                    
-                },
-                error: function() {
-                    
-		}
-            });     
+        $.ajax({
+            url: "<?php echo $this->url(array('controller'=>'report-values','action'=>'confirm')) ?>/itemid/"+itemid+"/isconfirmed/"+isconfirmed,
+            success: function(){            
+            }
         });
     }
 </script>
