@@ -1,4 +1,24 @@
-<table>
+<div class="container-fluid">
+   <div class="row-fluid">
+       <?php if($this->acl['ReportValues|Confirm']){ ?>
+        <div class="span3">
+            
+        <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Сотрудники</li>
+              <?php foreach($this->users as $user) { ?>
+                  <li><a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$this->report['id'],'userid'=>$user->id)) ?>">
+                          <i class="icon-user"></i> <?php echo $this->escape($user->lastname).' '.$this->escape($user->firstname); ?>
+                      </a>
+                  </li>
+              <?php } ?>    
+            </ul>
+          </div>
+             
+            </div>
+       <?php } ?>
+            <div class="<?php if($this->acl['ReportValues|Confirm']){ echo 'span9'; } else { echo 'span12';}?>">
+<!--<table>
     <tr>
         <?php if($this->acl['ReportValues|Confirm']){ ?>                                              
         <td valign="top">
@@ -19,18 +39,7 @@
             </table>
         </td>
         <?php } ?> 
-        <td>
-            <!--<dl> 
-                <dt>Название отчета:</dt>
-                <dd><?php echo $this->escape($this->report['name']) ?></dd>
-                <dt>Сумма значений показателей отчета:</dt>
-                <dd><?php echo $this->escape($this->summary); ?></dd>
-                <dt>Статус отчета:</dt>
-                <dd><?php if($this->allconfirmed)
-                        echo "отчет подтвержден.";
-                    else
-                        echo "отчет не подтвержден."; ?></dd>
-            </dl>-->
+        <td>-->           
                         <table class="table">
                             <tr><td>Название отчета:</td><td><?php echo $this->escape($this->report['name']) ?></td></tr>
                             <tr><td>Итого баллов:</td><td><span class="badge badge-info"><?php echo $this->escape($this->summary); ?></span></td></tr>
@@ -94,9 +103,12 @@
          </tr>
      <?php } ?>
  </table>
-        </td>
+            </div>
+      </div>
+</div>
+<!--        </td>
     </tr>
-</table>
+</table>-->
 <script type="text/javascript">
     function collapse(cell){      
 	if (cell.className == "icon-folder-close"){
