@@ -17,29 +17,7 @@
              
             </div>
        <?php } ?>
-            <div class="<?php if($this->acl['ReportValues|Confirm']){ echo 'span9'; } else { echo 'span12';}?>">
-<!--<table>
-    <tr>
-        <?php if($this->acl['ReportValues|Confirm']){ ?>                                              
-        <td valign="top">
-            <p>Список пользователей</p>
-            <table>
-                <tr>
-                    <th>ФИО</th>
-                </tr>
-                <?php foreach($this->users as $user) { ?>
-                <tr>
-                    <td>
-                        <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'index','reportid'=>$this->report['id'],'userid'=>$user->id)) ?>">
-                            <?php echo $this->escape($user->lastname).' '.$this->escape($user->firstname); ?>
-                        </a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </table>
-        </td>
-        <?php } ?> 
-        <td>-->           
+            <div class="<?php if($this->acl['ReportValues|Confirm']){ echo 'span9'; } else { echo 'span12';}?>">          
                         <table class="table">
                             <tr><td>Название отчета:</td><td><?php echo $this->escape($this->report['name']) ?></td></tr>
                             <tr><td>Итого баллов:</td><td><span class="badge badge-info"><?php echo $this->escape($this->summary); ?></span></td></tr>

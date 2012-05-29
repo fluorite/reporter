@@ -102,6 +102,22 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
         $this->insert($data);
     }
     /**
+     * Изменение требуемого показателя.
+     * @param int $id идентификатор показателя.
+     * @param string $name название показателя.
+     * @param int $isvalue наличие значения для показателя (1, если значение есть, и 0 в противном случае).
+    */
+    public function updateItem($id,$name,$isvalue){
+        if (($isvalue != 0) && ($isvalue != 1)) {
+            throw new Exception("Ошибочное наличие значения для показателя [$isvalue]. Наличие значения для показателя [$id] должно быть 1 или 0.");
+        }     
+        $data=array(            
+            'name'=>$name,
+            'isvalue'=>$isvalue
+        );
+        $this->update($data,'id='.(int)$id);
+    }
+    /**
      * Удаление требуемого показателя.
      * @param int $id идентификатор показателя.
     */

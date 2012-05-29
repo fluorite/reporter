@@ -5,6 +5,8 @@ class Application_Form_ReportItems extends Zend_Form
     public function __construct($options=null){
          parent::__construct($options);
          $this->setName('reportitems');
+         // Использование стилевого класса bootstrap.
+         $this->setAttrib('class','well');
          // Идентификатор показателя.
          $id=new Zend_Form_Element_Hidden('id');
          $id->addFilter('Int');
@@ -15,9 +17,10 @@ class Application_Form_ReportItems extends Zend_Form
          $levelid=new Zend_Form_Element_Hidden('levelid');
          $levelid->addFilter('Int');
          // Название показателя.
-         $name=new Zend_Form_Element_Text('name');
+         $name=new Zend_Form_Element_Textarea('name');
          $name->setLabel('Название')
              ->setRequired(true)
+             ->setAttrib('rows','4')
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty');
@@ -32,8 +35,16 @@ class Application_Form_ReportItems extends Zend_Form
          $isvalue->setLabel('Значение')
              ->setRequired(true);
          $submit=new Zend_Form_Element_Submit('submit');
-         $submit->setAttrib('id','submitbutton')->setLabel('Добавить');
-         $this->addElements(array($id,$parentid,$levelid,$number,$name,$isvalue,$submit));
+         $submit->setAttrib('id','submitbutton')
+             ->setAttrib('class','btn btn-primary')
+             ->setLabel('Добавить')
+             ->setDecorators(array('ViewHelper'));
+         $cancel=new Zend_Form_Element_Submit('cancel');
+         $cancel->setAttrib('id','cancelbutton')
+             ->setAttrib('class','btn btn-warning')
+             ->setLabel('Отменить')
+             ->setDecorators(array('ViewHelper'));
+         $this->addElements(array($id,$parentid,$levelid,$number,$name,$isvalue,$submit,$cancel));
     }
     public function init()
     {

@@ -30,6 +30,7 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="insert"/>
           <actionMethod actionName="delete"/>
+          <actionMethod actionName="update"/>
         </controllerFile>
         <controllerFile controllerName="ReportValues">
           <actionMethod actionName="index"/>
@@ -153,6 +154,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ReportValues">
             <viewScriptFile forActionName="combine"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportItems">
+            <viewScriptFile forActionName="update"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

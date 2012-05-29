@@ -98,8 +98,46 @@ class ReportItemsController extends Zend_Controller_Action
         }
     }
 
+    public function updateAction()
+    {
+        // Получение идентификатора отчета из запроса.
+        $reportid=$this->_getParam('reportid',0);
+        if ($reportid != 0){
+            $form=new Application_Form_ReportItems(); 
+            $form->submit->setLabel('Сохранить');
+            $this->view->form=$form;
+            if ($this->getRequest()->isPost()){
+                $formData=$this->getRequest()->getPost();
+                if ($form->isValid($formData)){
+                    $id=(int)$form->getValue('id');                 
+                    $name=$form->getValue('name');                    
+                    $isvalue=$form->getValue('isvalue');
+                    $items=new Application_Model_DbTable_ReportItems();
+                    $items->updateItem($id,$name,$isvalue);
+                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
+                }
+                else{
+                    $form->populate($formData);
+                }
+            }
+            else{
+                // Получение идентификатора показателя из запроса.
+                $id=$this->_getParam('id',0);
+                $items=new Application_Model_DbTable_ReportItems();    
+                $item=$items->getItem($id);
+                $form->populate(array(
+                    'id'=>$item['id'],
+                    'name'=>$item['name'],
+                    'number'=>$item['number'],
+                    'isvalue'=>$item['isvalue']));              
+            }
+        }
+    }
+
 
 }
+
+
 
 
 
