@@ -82,7 +82,7 @@ class ReportItemsController extends Zend_Controller_Action
         if ($reportid != 0){
             if ($this->getRequest()->isPost()) {
                 $isConfirmed=$this->getRequest()->getPost('confirm');
-                if ($isConfirmed == 'Да'){
+                if ($isConfirmed == 'Удалить'){
                     $id=$this->getRequest()->getPost('id');
                     $items=new Application_Model_DbTable_ReportItems();
                     $items->deleteItem($id);
