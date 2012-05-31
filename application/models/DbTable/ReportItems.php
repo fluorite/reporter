@@ -7,13 +7,20 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
 
     public function getItems($reportid){
          $reportid=(int)$reportid;
-         
+         $levelsdb=new Application_Model_DbTable_ReportLevels();
+         // Определение количества уровней в отчете.
+         $levels=$levelsdb->getLastNumber($reportid);
+         // Формирование списка сортировки показателей отчета.
+         $orderby=array();
+         for($i=1; $i <= $levels; $i++){
+             $orderby[]="cutlevel(i.number,$i)";
+         }
          return $this->fetchAll($this
              ->select()
              ->from(array('i'=>'report_items'),array('id','parentid','levelid','name','number','isvalue'))
              ->join(array('l'=>'report_levels'),'i.levelid=l.id',array())
              ->where('l.reportid=?',$reportid)    
-             ->order('i.number'));
+             ->order($orderby));
     }
     /**
      * Выборка требуемого показателя.
