@@ -39,6 +39,7 @@
           <actionMethod actionName="delete"/>
           <actionMethod actionName="confirm"/>
           <actionMethod actionName="combine"/>
+          <actionMethod actionName="print"/>
         </controllerFile>
         <controllerFile controllerName="User">
           <actionMethod actionName="index"/>
@@ -157,6 +158,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ReportItems">
             <viewScriptFile forActionName="update"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ReportValues">
+            <viewScriptFile forActionName="print"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

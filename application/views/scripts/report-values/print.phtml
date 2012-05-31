@@ -1,0 +1,25 @@
+<table class="table table-bordered" style="width: 100%">
+    <thead>
+    <tr>
+        <th>№ п/п</th>  
+        <th>Критерии оценки</th>    
+        <th>Балл</th>
+        <th>Удостоверяющий документ</th>
+    </tr>
+    </thead>
+    <?php foreach($this->items as $item) { ?>
+    <?php     if ($this->values[$item->id] != 0) { ?>
+    <tr>
+        <td><?php echo $this->escape($item->number) ?></td>
+        <td><?php echo $this->escape($item->name) ?></td>
+        <td><?php echo $this->escape($this->values[$item->id]) ?></td>
+        <td>&nbsp</td>
+    </tr>
+        <?php } ?>
+    <?php } ?>
+    <tr>
+        <td colspan="2">Итого баллов</td>
+        <td><?php echo $this->escape($this->summary) ?></td>
+        <td>&nbsp</td>
+    </tr>
+</table>

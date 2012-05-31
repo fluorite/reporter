@@ -30,6 +30,11 @@
                         <i class="icon-pencil"></i> Заполнить
                     </a>
                 <?php } ?> 
+                <?php if($this->acl['ReportValues|Print']){ ?>          
+                    <a title="Распечатать отчёт" href="<?php echo $this->url(array('controller'=>'report-values','action'=>'print','reportid'=>$report->id)) ?>">
+                        <i class="icon-print"></i> Печатать
+                    </a>
+                <?php } ?> 
                 <?php if($this->acl['ReportValues|Combine']){ ?>          
                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'combine','reportid'=>$report->id)) ?>">
                         Рейтинг-лист кафедры

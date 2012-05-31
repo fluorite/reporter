@@ -255,8 +255,37 @@ class ReportValuesController extends Zend_Controller_Action
         }
     }
 
+    public function printAction()
+    {
+        // Получение идентификатора отчета из запроса.
+        $reportid=$this->_getParam('reportid',0);
+        if ($reportid != 0){
+            // Полная сумма показателей отчёта.
+            $summary=0;
+            // Показатели отчёта.
+            $items=new Application_Model_DbTable_ReportItems();
+            $this->view->items=$items->getItems($reportid);
+            // Значения показателей отчёта.
+            $values=new Application_Model_DbTable_ReportValues();
+            foreach($this->view->items as $item) {
+                if ($item->isvalue == 1){
+                    $data[$item->id]=$values->getValue($item->id,'value',$userid);                                    
+                }
+                else
+                    $data[$item->id]=$values->sumChildValues($item->id,$userid);
+                // Суммирование значений показателей верхнего уровня.
+                if ($item->parentid == null)
+                    $summary+=$data[$item->id];
+            }
+            $this->view->values=$data;
+            $this->view->summary=$summary;
+        }
+    }
+
 
 }
+
+
 
 
 
