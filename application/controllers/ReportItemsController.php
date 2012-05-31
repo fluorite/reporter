@@ -18,9 +18,9 @@ class ReportItemsController extends Zend_Controller_Action
             $this->view->items=$items->getItems($reportid);
             // Свойства показателей отчёта.
             foreach($this->view->items as $item) {
-                $properties[$item->id]=$items->hasChildren($item->id);
+                $hasChildren[$item->id]=$items->hasChildren($item->id);
             }
-            $this->view->properties=$properties;
+            $this->view->hasChildren=$hasChildren;
             // Идентификатор последнего уровня отчёта.
             $levels=new Application_Model_DbTable_ReportLevels();
             $this->view->lastlevelid=$levels->getLastLevel($reportid);
