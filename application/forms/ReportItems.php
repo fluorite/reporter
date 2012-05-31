@@ -20,10 +20,11 @@ class Application_Form_ReportItems extends Zend_Form
          $name=new Zend_Form_Element_Textarea('name');
          $name->setLabel('Название')
              ->setRequired(true)
-             ->setAttrib('rows','4')
+             ->setAttrib('rows','6')
              ->addFilter('StripTags')
-             ->addFilter('StringTrim')
-             ->addValidator('NotEmpty');
+             //->addFilter('StringTrim')
+             ->addValidator('NotEmpty',true,
+                array('messages' => array('isEmpty' => 'Значение является обязательным и не может быть пустым')));
          // Номер показателя по порядку.
          $number=new Zend_Form_Element_Hidden('number');
          $number->setRequired(true)
@@ -44,7 +45,7 @@ class Application_Form_ReportItems extends Zend_Form
              ->setAttrib('class','btn btn-warning')
              ->setLabel('Отменить')
              ->setDecorators(array('ViewHelper'));
-         $this->addElements(array($id,$parentid,$levelid,$number,$name,$isvalue,$submit,$cancel));
+         $this->addElements(array($name,$isvalue,$submit,$cancel,$id,$parentid,$levelid,$number));
     }
     public function init()
     {

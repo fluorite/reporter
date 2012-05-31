@@ -38,18 +38,26 @@ class ReportItemsController extends Zend_Controller_Action
             $this->view->form=$form;
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
-                if ($form->isValid($formData)){
-                    $parentid=$form->getValue('parentid');
-                    $levelid=$form->getValue('levelid');
-                    $name=$form->getValue('name');
-                    $number=$form->getValue('number');
-                    $isvalue=$form->getValue('isvalue');
-                    $items=new Application_Model_DbTable_ReportItems();
-                    $items->insertItem($parentid,$levelid,$name,$number,$isvalue);
-                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
+                if ($formData['submit']){
+                    // Обработка нажатия кнопки "Добавить".
+                    if ($form->isValid($formData)){
+                        $parentid=$form->getValue('parentid');
+                        $levelid=$form->getValue('levelid');
+                        $name=$form->getValue('name');
+                        $number=$form->getValue('number');
+                        $isvalue=$form->getValue('isvalue');
+                        $items=new Application_Model_DbTable_ReportItems();
+                        $items->insertItem($parentid,$levelid,$name,$number,$isvalue);
+                        // Переход на страницу с перечнем показателей требуемого отчета.
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
+                    }
+                    else{
+                        $form->populate($formData);
+                    }
                 }
                 else{
-                    $form->populate($formData);
+                    // Переход на страницу с перечнем показателей требуемого отчета.
+                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
                 }
             }
             else{
@@ -108,16 +116,24 @@ class ReportItemsController extends Zend_Controller_Action
             $this->view->form=$form;
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
-                if ($form->isValid($formData)){
-                    $id=(int)$form->getValue('id');                 
-                    $name=$form->getValue('name');                    
-                    $isvalue=$form->getValue('isvalue');
-                    $items=new Application_Model_DbTable_ReportItems();
-                    $items->updateItem($id,$name,$isvalue);
-                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
+                if ($formData['submit']){
+                    // Обработка нажатия кнопки "Сохранить".
+                    if ($form->isValid($formData)){
+                        $id=(int)$form->getValue('id');                 
+                        $name=$form->getValue('name');                    
+                        $isvalue=$form->getValue('isvalue');
+                        $items=new Application_Model_DbTable_ReportItems();
+                        $items->updateItem($id,$name,$isvalue);
+                        // Переход на страницу с перечнем показателей требуемого отчета.
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
+                    }
+                    else{
+                        $form->populate($formData);
+                    }
                 }
                 else{
-                    $form->populate($formData);
+                    // Переход на страницу с перечнем показателей требуемого отчета.
+                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));               
                 }
             }
             else{
