@@ -4,9 +4,17 @@ class Application_Model_DbTable_User extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'user';
-
-    public function getUser($id){
+ 
+    /**
+     * Выборка требуемого пользователя.
+     * @param int $userid идентификатор пользователя (если 0 или отсутствует, то текущий пользователь).
+     * @return mixed значения полей пользователя. 
+    */
+    public function getUser($id=0){
         $id=(int)$id;
+        if($id == 0)
+            // Идентификатор текущего пользователя.
+            $id=Zend_Auth::getInstance()->getIdentity()->id;
         $row=$this->fetchRow('id='.$id);
         if(!$row)
             throw new Exception("Пользователь [$id] отсутствует");

@@ -20,11 +20,11 @@
                 <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
                     <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-user"></i><?php echo $this->user->login;?>
+                            <i class="icon-user"></i><?php echo $this->escape($this->user->login);?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><?php echo $this->user->lastname." ".$this->user->firstname;?></a></li>
+                            <li><a href="#"><?php echo $this->escape($this->user->lastname." ".$this->user->firstname);?></a></li>
                             <li class="divider"></li>
                             <li><a href="<?php echo $this->url(array('controller'=>'user','action'=>'logout'),null,true) ?>">Выход</a></li>
                         </ul>

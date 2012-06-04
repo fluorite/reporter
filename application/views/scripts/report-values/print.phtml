@@ -1,3 +1,5 @@
+<div>Индивидуальный отчет: <?php echo $this->escape($this->user->lastname." ".$this->user->firstname." ".$this->user->middlename) ?></div>
+<div>по результатам работы за __ семестр 201_/201_ учебного года</div>
 <table class="table table-bordered" style="width: 100%">
     <thead>
     <tr>
@@ -23,3 +25,14 @@
         <td>&nbsp</td>
     </tr>
 </table>
+<table>
+    <tr>
+        <td>__________________</td>
+        <td>/__________________/</td>
+    </tr>
+    <tr>
+        <td>подпись</td>
+        <td>Ф.И.О.</td>
+    </tr>
+</table>
+<button class="btn btn-primary"><i class="icon-print icon-white" onclick="window.print()"></i> Печатать</button>

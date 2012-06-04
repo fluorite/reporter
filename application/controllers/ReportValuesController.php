@@ -269,14 +269,17 @@ class ReportValuesController extends Zend_Controller_Action
             $values=new Application_Model_DbTable_ReportValues();
             foreach($this->view->items as $item) {
                 if ($item->isvalue == 1){
-                    $data[$item->id]=$values->getValue($item->id,'value',$userid);                                    
+                    $data[$item->id]=$values->getValue($item->id,'value');                                    
                 }
                 else
-                    $data[$item->id]=$values->sumChildValues($item->id,$userid);
+                    $data[$item->id]=$values->sumChildValues($item->id);
                 // Суммирование значений показателей верхнего уровня.
                 if ($item->parentid == null)
                     $summary+=$data[$item->id];
             }
+            // Пользователи.
+            //$users=new Application_Model_DbTable_User();
+            //$this->view->user=$users->getUser();
             $this->view->values=$data;
             $this->view->summary=$summary;
         }
