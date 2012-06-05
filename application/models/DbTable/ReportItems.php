@@ -17,7 +17,8 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
          }
          return $this->fetchAll($this
              ->select()
-             ->from(array('i'=>'report_items'),array('id','parentid','levelid','name','number','isvalue','score'))
+             ->from(array('i'=>'report_items'),
+                    array('id','parentid','levelid','name','number','isvalue','score','certificate','comment'))
              ->join(array('l'=>'report_levels'),'i.levelid=l.id',array())
              ->where('l.reportid=?',$reportid)    
              ->order($orderby));
@@ -89,7 +90,18 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
         // Выборка подчиненных показателей.
         return $this->fetchAll($this->select()->from(array('report_items'),array('id','parentid','levelid','name','number','isvalue'))->where('parentid=?',$id));
     }
-    public function insertItem($parentid,$levelid,$name,$number,$isvalue,$score){
+    /**
+     * Добавление требуемого показателя.
+     * @param int $parentid идентификатор родительского показателя.
+     * @param int $levelid идентификатор уровня отчёта.
+     * @param string $name название показателя.
+     * @param string $number номер показателя по порядку.
+     * @param int $isvalue наличие значения для показателя (1, если значение есть, и 0 в противном случае).
+     * @param int $score начисляемый за показатель балл.
+     * @param string $certificate документ, подтверждающий показатель.
+     * @param string $comment примечание к показателю.
+    */
+    public function insertItem($parentid,$levelid,$name,$number,$isvalue,$score,$certificate,$comment){
         if ($parentid != 0)
             $data=array(
                 'parentid'=>$parentid,
@@ -97,7 +109,9 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
                 'name'=>$name,
                 'number'=>$number,
                 'isvalue'=>$isvalue,
-                'score'=>$score
+                'score'=>$score,
+                'certificate'=>$certificate,
+                'comment'=>$comment
             );
         else
             // Добавление показателя верхнего уровня.
@@ -106,7 +120,9 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
                 'name'=>$name,
                 'number'=>$number,
                 'isvalue'=>$isvalue,
-                'score'=>$score
+                'score'=>$score,
+                'certificate'=>$certificate,
+                'comment'=>$comment
             );
         $this->insert($data);
     }
@@ -115,16 +131,20 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
      * @param int $id идентификатор показателя.
      * @param string $name название показателя.
      * @param int $isvalue наличие значения для показателя (1, если значение есть, и 0 в противном случае).
-     * @param int $score начисляемый за показатель балл..
+     * @param int $score начисляемый за показатель балл.
+     * @param string $certificate документ, подтверждающий показатель.
+     * @param string $comment примечание к показателю.
     */
-    public function updateItem($id,$name,$isvalue,$score){
+    public function updateItem($id,$name,$isvalue,$score,$certificate,$comment){
         if (($isvalue != 0) && ($isvalue != 1)) {
             throw new Exception("Ошибочное наличие значения для показателя [$isvalue]. Наличие значения для показателя [$id] должно быть 1 или 0.");
         }     
         $data=array(            
             'name'=>$name,
             'isvalue'=>$isvalue,
-            'score'=>$score
+            'score'=>$score,
+            'certificate'=>$certificate,
+            'comment'=>$comment
         );
         $this->update($data,'id='.(int)$id);
     }

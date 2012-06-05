@@ -38,6 +38,14 @@ class Application_Form_ReportItems extends Zend_Form
          // Начисляемый за показатель балл.
          $score=new Zend_Form_Element_Text('score');
          $score->setLabel('Балл:');
+         // Документ, подтверждающий показатель.
+         $certificate=new Zend_Form_Element_Textarea('certificate');
+         $certificate->setLabel('Подтверждающий документ:')
+             ->setAttrib('rows','6');
+         // Примечание к показателю.
+         $comment=new Zend_Form_Element_Textarea('comment');
+         $comment->setLabel('Примечания:')
+             ->setAttrib('rows','6');
          $submit=new Zend_Form_Element_Submit('submit');
          $submit->setAttrib('id','submitbutton')
              ->setAttrib('class','btn btn-primary')
@@ -48,7 +56,7 @@ class Application_Form_ReportItems extends Zend_Form
              ->setAttrib('class','btn btn-warning')
              ->setLabel('Отменить')
              ->setDecorators(array('ViewHelper'));
-         $this->addElements(array($name,$isvalue,$score,$submit,$cancel,$id,$parentid,$levelid,$number));
+         $this->addElements(array($name,$isvalue,$score,$certificate,$comment,$submit,$cancel,$id,$parentid,$levelid,$number));
     }
     public function init()
     {

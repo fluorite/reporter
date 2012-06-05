@@ -6,11 +6,15 @@
          <th>Название</th>        
          <th>Значение</th>
          <th>Балл</th>
+         <th>Документ, удостоверяющий результат деятельности</th>
+         <th>Примечания</th>
      </tr>
      </thead>
      <tr>
          <td>...</td>
          <td><a title="Добавить подчиненный показатель в отчёт" href="<?php echo $this->url(array('controller'=>'report-items','action'=>'insert','reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить</a></td>
+         <td>...</td>
+         <td>...</td>
          <td>...</td>
          <td>...</td>
      </tr>
@@ -28,6 +32,8 @@
              </td>             
              <td><?php if($item->isvalue == 1) echo 'да'; else echo 'нет'; ?></td>
              <td><?php echo $this->escape($item->score) ?></td>
+             <td><?php echo $this->escape($item->certificate) ?></td>
+             <td><?php echo $this->escape($item->comment) ?></td>
          </tr>
      <?php } ?>
  </table>
