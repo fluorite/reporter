@@ -35,6 +35,9 @@ class Application_Form_ReportItems extends Zend_Form
          $isvalue=new Zend_Form_Element_Checkbox('isvalue');
          $isvalue->setLabel('Значение')
              ->setRequired(true);
+         // Начисляемый за показатель балл.
+         $score=new Zend_Form_Element_Text('score');
+         $score->setLabel('Балл:');
          $submit=new Zend_Form_Element_Submit('submit');
          $submit->setAttrib('id','submitbutton')
              ->setAttrib('class','btn btn-primary')
@@ -45,7 +48,7 @@ class Application_Form_ReportItems extends Zend_Form
              ->setAttrib('class','btn btn-warning')
              ->setLabel('Отменить')
              ->setDecorators(array('ViewHelper'));
-         $this->addElements(array($name,$isvalue,$submit,$cancel,$id,$parentid,$levelid,$number));
+         $this->addElements(array($name,$isvalue,$score,$submit,$cancel,$id,$parentid,$levelid,$number));
     }
     public function init()
     {

@@ -17,7 +17,7 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
          }
          return $this->fetchAll($this
              ->select()
-             ->from(array('i'=>'report_items'),array('id','parentid','levelid','name','number','isvalue'))
+             ->from(array('i'=>'report_items'),array('id','parentid','levelid','name','number','isvalue','score'))
              ->join(array('l'=>'report_levels'),'i.levelid=l.id',array())
              ->where('l.reportid=?',$reportid)    
              ->order($orderby));
@@ -89,14 +89,15 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
         // Выборка подчиненных показателей.
         return $this->fetchAll($this->select()->from(array('report_items'),array('id','parentid','levelid','name','number','isvalue'))->where('parentid=?',$id));
     }
-    public function insertItem($parentid,$levelid,$name,$number,$isvalue){
+    public function insertItem($parentid,$levelid,$name,$number,$isvalue,$score){
         if ($parentid != 0)
             $data=array(
                 'parentid'=>$parentid,
                 'levelid'=>$levelid,
                 'name'=>$name,
                 'number'=>$number,
-                'isvalue'=>$isvalue
+                'isvalue'=>$isvalue,
+                'score'=>$score
             );
         else
             // Добавление показателя верхнего уровня.
@@ -104,7 +105,8 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
                 'levelid'=>$levelid,
                 'name'=>$name,
                 'number'=>$number,
-                'isvalue'=>$isvalue
+                'isvalue'=>$isvalue,
+                'score'=>$score
             );
         $this->insert($data);
     }
@@ -113,14 +115,16 @@ class Application_Model_DbTable_ReportItems extends Zend_Db_Table_Abstract
      * @param int $id идентификатор показателя.
      * @param string $name название показателя.
      * @param int $isvalue наличие значения для показателя (1, если значение есть, и 0 в противном случае).
+     * @param int $score начисляемый за показатель балл..
     */
-    public function updateItem($id,$name,$isvalue){
+    public function updateItem($id,$name,$isvalue,$score){
         if (($isvalue != 0) && ($isvalue != 1)) {
             throw new Exception("Ошибочное наличие значения для показателя [$isvalue]. Наличие значения для показателя [$id] должно быть 1 или 0.");
         }     
         $data=array(            
             'name'=>$name,
-            'isvalue'=>$isvalue
+            'isvalue'=>$isvalue,
+            'score'=>$score
         );
         $this->update($data,'id='.(int)$id);
     }

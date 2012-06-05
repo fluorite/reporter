@@ -46,8 +46,9 @@ class ReportItemsController extends Zend_Controller_Action
                         $name=$form->getValue('name');
                         $number=$form->getValue('number');
                         $isvalue=$form->getValue('isvalue');
+                        $score=$form->getValue('score');
                         $items=new Application_Model_DbTable_ReportItems();
-                        $items->insertItem($parentid,$levelid,$name,$number,$isvalue);
+                        $items->insertItem($parentid,$levelid,$name,$number,$isvalue,$score);
                         // Переход на страницу с перечнем показателей требуемого отчета.
                         $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
                     }
@@ -122,8 +123,9 @@ class ReportItemsController extends Zend_Controller_Action
                         $id=(int)$form->getValue('id');                 
                         $name=$form->getValue('name');                    
                         $isvalue=$form->getValue('isvalue');
+                        $score=$form->getValue('score');
                         $items=new Application_Model_DbTable_ReportItems();
-                        $items->updateItem($id,$name,$isvalue);
+                        $items->updateItem($id,$name,$isvalue,$score);
                         // Переход на страницу с перечнем показателей требуемого отчета.
                         $this->_helper->redirector->gotoRoute(array('controller'=>'report-items','action'=>'index','reportid'=>$reportid));
                     }
@@ -145,7 +147,8 @@ class ReportItemsController extends Zend_Controller_Action
                     'id'=>$item['id'],
                     'name'=>$item['name'],
                     'number'=>$item['number'],
-                    'isvalue'=>$item['isvalue']));              
+                    'isvalue'=>$item['isvalue'],
+                    'score'=>$item['score']));              
             }
         }
     }
