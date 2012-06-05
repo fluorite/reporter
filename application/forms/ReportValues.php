@@ -11,6 +11,10 @@ class Application_Form_ReportValues extends Zend_Form
          $title=new Zend_Form_Element_Text('title');
          $title->setLabel('Номер и название показателя:');
          $title->helper='formNote';
+         // Примечание к показателю.
+         $comment=new Zend_Form_Element_Text('comment');
+         $comment->setLabel('Примечание:');
+         $comment->helper='formNote';
          // Идентификатор показателя.
          $itemid=new Zend_Form_Element_Hidden('itemid');
          $itemid->setRequired(true)
@@ -33,7 +37,7 @@ class Application_Form_ReportValues extends Zend_Form
              ->setAttrib('class','btn btn-warning')
              ->setLabel('Отменить')
              ->setDecorators(array('ViewHelper'));
-         $this->addElements(array($title,$itemid,$value,$submit,$cancel));
+         $this->addElements(array($title,$comment,$itemid,$value,$submit,$cancel));
     }
     public function init()
     {

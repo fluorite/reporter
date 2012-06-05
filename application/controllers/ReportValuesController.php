@@ -94,6 +94,7 @@ class ReportValuesController extends Zend_Controller_Action
                         $form->populate(array(
                             'itemid'=>$formData['itemid'],
                             'title'=>$item['number'].' '.$item['name'],
+                            'comment'=>$item['comment'],
                             'value'=>$formData['value']));
                     }
                 }
@@ -111,7 +112,8 @@ class ReportValuesController extends Zend_Controller_Action
                     $item=$items->getItem($itemid);
                     $form->populate(array(
                         'itemid'=>$itemid,
-                        'title'=>$item['number'].' '.$item['name'],));
+                        'title'=>$item['number'].' '.$item['name'],
+                        'comment'=>$item['comment']));
                 }
             }
         }
@@ -145,6 +147,7 @@ class ReportValuesController extends Zend_Controller_Action
                         $form->populate(array(
                             'itemid'=>$formData['itemid'],
                             'title'=>$item['number'].' '.$item['name'],
+                            'comment'=>$item['comment'],
                             'value'=>$formData['value']));
                     }
                 }
@@ -163,6 +166,7 @@ class ReportValuesController extends Zend_Controller_Action
                     $form->populate(array(
                         'itemid'=>$itemid,
                         'title'=>$item['number'].' '.$item['name'],
+                        'comment'=>$item['comment'],
                         'value'=>$values->getValue($itemid,'value')));
                 }
             }
