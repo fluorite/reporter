@@ -29,14 +29,19 @@ class ReportController extends Zend_Controller_Action
         $this->view->form=$form;
         if ($this->getRequest()->isPost()){
             $formData=$this->getRequest()->getPost();
-            if ($form->isValid($formData)){
-                $name=$form->getValue('name');
-                $reports=new Application_Model_DbTable_Report();
-                $reports->insertReport($name);
-                $this->_helper->redirector('index');
+            if ($formData['submit']){
+                if ($form->isValid($formData)){
+                    $name=$form->getValue('name');
+                    $reports=new Application_Model_DbTable_Report();
+                    $reports->insertReport($name);
+                    $this->_helper->redirector('index');
+                }
+                else{
+                    $form->populate($formData);
+                }
             }
-            else{
-                $form->populate($formData);
+            else {
+                $this->_helper->redirector('index');
             }
         }
     }
@@ -48,15 +53,20 @@ class ReportController extends Zend_Controller_Action
         $this->view->form=$form;
         if ($this->getRequest()->isPost()){
             $formData=$this->getRequest()->getPost();
-            if ($form->isValid($formData)) {
-                $id=(int)$form->getValue('id');
-                $name=$form->getValue('name');
-                $reports=new Application_Model_DbTable_Report();
-                $reports->updateReport($id,$name);
-                $this->_helper->redirector('index');
-            } 
+            if ($formData['submit']){
+                if ($form->isValid($formData)) {
+                    $id=(int)$form->getValue('id');
+                    $name=$form->getValue('name');
+                    $reports=new Application_Model_DbTable_Report();
+                    $reports->updateReport($id,$name);
+                    $this->_helper->redirector('index');
+                } 
+                else {
+                    $form->populate($formData);
+                }
+            }
             else {
-                $form->populate($formData);
+                $this->_helper->redirector('index');
             }
         } 
         else {
@@ -72,7 +82,7 @@ class ReportController extends Zend_Controller_Action
     {
         if ($this->getRequest()->isPost()) {
             $isConfirmed=$this->getRequest()->getPost('confirm');
-            if ($isConfirmed == 'Да'){
+            if ($isConfirmed == 'Удалить'){
                 $id=$this->getRequest()->getPost('id');
                 $reports=new Application_Model_DbTable_Report();
                 $reports->deleteReport($id);
