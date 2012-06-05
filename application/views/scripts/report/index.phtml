@@ -1,20 +1,29 @@
 <p>Список отчётов</p>
 <p>
     <?php if($this->acl['Report|Insert']){ ?>          
-        <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>">Добавить новый отчёт</a>
+        <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>"><i class="icon-share-alt"></i> Добавить новый отчёт</a>
     <?php } ?>        
 </p>
 <table class="table">
     <thead>
     <tr>
         <th>Название</th>
-        <th>&nbsp</th>
     </tr>
     </thead> 
     <?php foreach($this->reports as $report) { ?>
         <tr>
             <td>
-                <?php echo $this->escape($report->name) ?><br>
+                <?php echo $this->escape($report->name) ?><br>          
+                <?php if ($this->acl['Report|Update']){ ?>
+                   <a href="<?php echo $this->url(array('controller'=>'report','action'=>'update','id'=>$report->id)) ?>">
+                       <i class="icon-pencil"></i> Изменить
+                   </a> 
+                <?php } ?>        
+                <?php if ($this->acl['Report|Delete']){ ?>
+                   <a href="<?php echo $this->url(array('controller'=>'report','action'=>'delete','id'=>$report->id)) ?>">
+                       <i class="icon-trash"></i> Удалить
+                   </a> 
+                <?php } ?> 
                 <?php if($this->acl['ReportLevels|Index']){ ?>          
                     <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'index','reportid'=>$report->id)) ?>">
                         Уровни
@@ -39,18 +48,6 @@
                     <a href="<?php echo $this->url(array('controller'=>'report-values','action'=>'combine','reportid'=>$report->id)) ?>">
                         Рейтинг-лист кафедры
                     </a>
-                <?php } ?> 
-            </td>
-            <td>
-                <?php if ($this->acl['Report|Update']){ ?>
-                   <a href="<?php echo $this->url(array('controller'=>'report','action'=>'update','id'=>$report->id)) ?>">
-                       Изменить
-                   </a> 
-                <?php } ?>        
-                <?php if ($this->acl['Report|Delete']){ ?>
-                   <a href="<?php echo $this->url(array('controller'=>'report','action'=>'delete','id'=>$report->id)) ?>">
-                       Удалить
-                   </a> 
                 <?php } ?> 
             </td>
         </tr>
