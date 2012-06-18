@@ -5,6 +5,8 @@ class Application_Form_ReportLevels extends Zend_Form
     public function __construct($options=null){
          parent::__construct($options);
          $this->setName('reportlevels');
+         // Использование стилевого класса bootstrap.
+         $this->setAttrib('class','well');
          // Идентификатор уровня отчёта.
          $id = new Zend_Form_Element_Hidden('id');
          $id->addFilter('Int');
@@ -20,10 +22,19 @@ class Application_Form_ReportLevels extends Zend_Form
              ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
-             ->addValidator('NotEmpty');
+             ->addValidator('NotEmpty',true,
+                array('messages' => array('isEmpty' => 'Значение является обязательным и не может быть пустым')));
          $submit=new Zend_Form_Element_Submit('submit');
-         $submit->setAttrib('id','submitbutton')->setLabel('Добавить');
-         $this->addElements(array($id,$reportid,$number,$name,$submit));
+         $submit->setAttrib('id','submitbutton')
+             ->setAttrib('class','btn btn-primary')
+             ->setLabel('Добавить')
+             ->setDecorators(array('ViewHelper'));
+         $cancel=new Zend_Form_Element_Submit('cancel');
+         $cancel->setAttrib('id','cancelbutton')
+             ->setAttrib('class','btn btn-warning')
+             ->setLabel('Отменить')
+             ->setDecorators(array('ViewHelper'));
+         $this->addElements(array($name,$submit,$cancel,$id,$reportid,$number));
     }
     public function init()
     {

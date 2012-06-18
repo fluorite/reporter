@@ -4,7 +4,7 @@
         <a href="<?php echo $this->url(array('controller'=>'report','action'=>'insert')) ?>"><i class="icon-share-alt"></i> Добавить новый отчёт</a>
     <?php } ?>        
 </p>
-<table class="table">
+<table class="table table-bordered">
     <thead>
     <tr>
         <th>Название</th>
@@ -26,12 +26,12 @@
                 <?php } ?> 
                 <?php if($this->acl['ReportLevels|Index']){ ?>          
                     <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'index','reportid'=>$report->id)) ?>">
-                        Уровни
+                        <i class="icon-signal"></i> Уровни
                     </a>
                 <?php } ?> 
                 <?php if($this->acl['ReportItems|Index']){ ?>          
                     <a href="<?php echo $this->url(array('controller'=>'report-items','action'=>'index','reportid'=>$report->id)) ?>">
-                        Показатели
+                        <i class="icon-cog"></i> Показатели
                     </a>
                 <?php } ?>  
                 <?php if($this->acl['ReportValues|Index']){ ?>          

@@ -20,7 +20,8 @@ class Application_Form_ReportItems extends Zend_Form
          $name=new Zend_Form_Element_Textarea('name');
          $name->setLabel('Название')
              ->setRequired(true)
-             ->setAttrib('rows','6')
+             ->setAttrib('rows','3')
+             ->setAttrib('style','width: 600px')
              ->addFilter('StripTags')
              //->addFilter('StringTrim')
              ->addValidator('NotEmpty',true,
@@ -41,11 +42,13 @@ class Application_Form_ReportItems extends Zend_Form
          // Документ, подтверждающий показатель.
          $certificate=new Zend_Form_Element_Textarea('certificate');
          $certificate->setLabel('Подтверждающий документ:')
-             ->setAttrib('rows','6');
+             ->setAttrib('rows','3')
+             ->setAttrib('style','width: 600px');
          // Примечание к показателю.
          $comment=new Zend_Form_Element_Textarea('comment');
          $comment->setLabel('Примечания:')
-             ->setAttrib('rows','6');
+             ->setAttrib('rows','3')
+             ->setAttrib('style','width: 600px');
          $submit=new Zend_Form_Element_Submit('submit');
          $submit->setAttrib('id','submitbutton')
              ->setAttrib('class','btn btn-primary')

@@ -1,27 +1,32 @@
 <p>Список уровней отчета</p>
 <p>
-    <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'insert','reportid'=>$this->reportid)) ?>">Добавить новый уровень</a>
+    <?php if($this->acl['ReportLevels|Insert']){ ?> 
+        <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'insert','reportid'=>$this->reportid)) ?>"><i class="icon-share-alt"></i> Добавить новый уровень</a>
+    <?php } ?> 
 </p>
-<table>
+<table class="table table-bordered">
+    <thead>
      <tr>
          <th>Название</th>
          <th>Номер</th>
-         <th>Операции</th>
      </tr>
+     </thead>
      <?php foreach($this->levels as $level) { ?>
          <tr>
-             <td><?php echo $this->escape($level->name) ?></td>
-             <td><?php echo $this->escape($level->number) ?></td>
              <td>
-                 <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'update','id'=>$level->id,'reportid'=>$this->reportid)) ?>">
-                     Изменить
-                 </a> 
-                 <?php if($level->number == $this->lastnumber) { ?>
-                 <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'delete','id'=>$level->id,'reportid'=>$this->reportid)) ?>">
-                     Удалить
-                 </a> 
+                 <?php echo $this->escape($level->name) ?><br>
+                 <?php if ($this->acl['ReportLevels|Update']){ ?>
+                    <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'update','id'=>$level->id,'reportid'=>$this->reportid)) ?>">
+                        <i class="icon-pencil"></i> Изменить
+                    </a> 
+                 <?php } ?> 
+                 <?php if($this->acl['ReportLevels|Delete'] && ($level->number == $this->lastnumber)) { ?>
+                    <a href="<?php echo $this->url(array('controller'=>'report-levels','action'=>'delete','id'=>$level->id,'reportid'=>$this->reportid)) ?>">
+                        <i class="icon-trash"></i> Удалить
+                    </a> 
                  <?php } ?>
              </td>
+             <td><?php echo $this->escape($level->number) ?></td>
          </tr>
      <?php } ?>
  </table>

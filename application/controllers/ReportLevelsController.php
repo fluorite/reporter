@@ -17,6 +17,10 @@ class ReportLevelsController extends Zend_Controller_Action
             $this->view->levels=$levels->getLevels($reportid);
             $this->view->reportid=$reportid;
             $this->view->lastnumber=$levels->getLastNumber($reportid);
+            $acl['ReportLevels|Insert']=$this->_helper->acl('report-levels','insert');
+            $acl['ReportLevels|Update']=$this->_helper->acl('report-levels','update');
+            $acl['ReportLevels|Delete']=$this->_helper->acl('report-levels','delete');
+            $this->view->acl=$acl;
         }
     }
 
@@ -29,16 +33,21 @@ class ReportLevelsController extends Zend_Controller_Action
             $this->view->form=$form;
             if ($this->getRequest()->isPost()){
                 $formData=$this->getRequest()->getPost();
-                if ($form->isValid($formData)){
-                    $reportid=$form->getValue('reportid');
-                    $name=$form->getValue('name');
-                    $number=$form->getValue('number');
-                    $levels=new Application_Model_DbTable_ReportLevels();
-                    $levels->insertLevel($reportid,$name,$number);
-                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
+                if ($formData['submit']){
+                    if ($form->isValid($formData)){
+                        $reportid=$form->getValue('reportid');
+                        $name=$form->getValue('name');
+                        $number=$form->getValue('number');
+                        $levels=new Application_Model_DbTable_ReportLevels();
+                        $levels->insertLevel($reportid,$name,$number);
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
+                    }
+                    else{
+                        $form->populate($formData);
+                    }
                 }
-                else{
-                    $form->populate($formData);
+                else {
+                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
                 }
             }
             else{
@@ -50,28 +59,37 @@ class ReportLevelsController extends Zend_Controller_Action
 
     public function updateAction()
     {
-        $form=new Application_Form_ReportLevels();
-        $form->submit->setLabel('Сохранить');
-        $this->view->form=$form;
-        if ($this->getRequest()->isPost()){
-            $formData=$this->getRequest()->getPost();
-            if ($form->isValid($formData)) {
-                $id=(int)$form->getValue('id');
-                $reportid=(int)$form->getValue('reportid');
-                $name=$form->getValue('name');
-                $levels=new Application_Model_DbTable_ReportLevels();
-                $levels->updateLevel($id,$name);
-                $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
+        // Получение идентификатора отчета из запроса.
+        $reportid=$this->_getParam('reportid',0);
+        if ($reportid != 0){
+            $form=new Application_Form_ReportLevels();
+            $form->submit->setLabel('Сохранить');
+            $this->view->form=$form;
+            if ($this->getRequest()->isPost()){
+                $formData=$this->getRequest()->getPost();
+                if ($formData['submit']){
+                    if ($form->isValid($formData)) {
+                        $id=(int)$form->getValue('id');
+                        $reportid=(int)$form->getValue('reportid');
+                        $name=$form->getValue('name');
+                        $levels=new Application_Model_DbTable_ReportLevels();
+                        $levels->updateLevel($id,$name);
+                        $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
+                    } 
+                    else {
+                        $form->populate($formData);
+                    }
+                }
+                else {
+                    $this->_helper->redirector->gotoRoute(array('controller'=>'report-levels','action'=>'index','reportid'=>$reportid));
+                }
             } 
             else {
-                $form->populate($formData);
-            }
-        } 
-        else {
-            $id=$this->_getParam('id', 0);
-            if ($id != 0) {
-                $levels=new Application_Model_DbTable_ReportLevels();
-                $form->populate($levels->getLevel($id));
+                $id=$this->_getParam('id', 0);
+                if ($id != 0) {
+                    $levels=new Application_Model_DbTable_ReportLevels();
+                    $form->populate($levels->getLevel($id));
+                }
             }
         }
     }
@@ -83,7 +101,7 @@ class ReportLevelsController extends Zend_Controller_Action
         if ($reportid != 0){
             if ($this->getRequest()->isPost()) {
                 $isConfirmed=$this->getRequest()->getPost('confirm');
-                if ($isConfirmed == 'Да'){
+                if ($isConfirmed == 'Удалить'){
                     $id=$this->getRequest()->getPost('id');
                     $levels=new Application_Model_DbTable_ReportLevels();
                     $levels->deleteLevel($id);
